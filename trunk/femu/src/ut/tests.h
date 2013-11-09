@@ -5,7 +5,4 @@
 void UT_Num();
 
 // Run all UT functions
-void RunUnittests() {
-    UT_Num();
-    MESSAGE("Unittests: OK");
-}
+void RunUnittests();
