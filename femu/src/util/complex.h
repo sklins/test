@@ -1,4 +1,5 @@
 #pragma once
+#include "global.h"
 #include "compare.h"
 #include "arithm.h"
 #include "num.h"

@@ -30,7 +30,7 @@ TComplex Multiplication(const TComplex &a, const TComplex &b) {
 
 TComplex Divizion(const TComplex &a, const TComplex &b) {
     // TODO: implement
-    throw NULL;
+    NOT_IMPLEMENTED;
 }
 
 TNum AbsSquared(const TComplex &x) {
@@ -43,7 +43,7 @@ TNum Abs(const TComplex &x) {
 
 TNum Arg(const TComplex &x) {
     // TODO: implement
-    throw NULL;
+    NOT_IMPLEMENTED;
 }
 
 TNum Re(const TComplex &x) {

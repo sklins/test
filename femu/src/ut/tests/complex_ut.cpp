@@ -10,6 +10,7 @@ void UT_Complex_ArithmOperations() {
 }
 
 void UT_Complex() {
+    MESSAGE("Complex unittest...");
     UT_Complex_ArithmOperations();
-    MESSAGE("Complex unittest... ok");
+    MESSAGE("Complex unittest: ok");
 }

@@ -1,5 +1,8 @@
 #pragma once
 #include <QtCore>
+#include <assert.h>
+
+#define NOT_IMPLEMENTED assert(false);
 
 typedef qint8 TInt8;
 typedef quint8 TUInt8;
