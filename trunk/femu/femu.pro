@@ -18,9 +18,11 @@ message()
 message("Checking for C/C++ compiler...")
 
 contains ( COMPILER, CLANG ) {
+    QMAKE_CC = clang
     QMAKE_CXX = clang++
     message("Using Apple CLang C/C++ compiler (clang/clang++)")
 } else:contains ( COMPILER, GCC ) {
+    QMAKE_CC = gcc
     QMAKE_CXX = g++
     message("Using GNU C/C++ compiler (gcc/g++)")
 } else {
