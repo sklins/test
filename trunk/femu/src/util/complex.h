@@ -12,7 +12,7 @@ struct TComplex {
 const TComplex ImaginaryUnit(0, 1);
 
 DECLARE_EQUALITY_TESTS(const TComplex &)
-DECLARE_PRECISE_EQUALITY_TESTS(const TComplex, TNum, StandardPrecision)
+DECLARE_PRECISE_EQUALITY_TESTS(const TComplex &, TNum, StandardPrecision)
 DECLARE_UNARY_PLUS_AND_MINUS(TComplex)
 DECLARE_ARITHMETIC_OPERATION_WITH_SHORTCUT(TComplex, +, +=, TComplex)
 DECLARE_ARITHMETIC_OPERATION_WITH_SHORTCUT(TComplex, -, -=, TComplex)
