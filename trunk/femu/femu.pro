@@ -17,30 +17,30 @@ message()
 
 message("Checking for C/C++ compiler...")
 
-contains ( COMPILER, CLANG ) {
+contains ( compiler, clang ) {
     QMAKE_CC = clang
     QMAKE_CXX = clang++
     message("Using Apple CLang C/C++ compiler (clang/clang++)")
-} else:contains ( COMPILER, GCC ) {
+} else:contains ( compiler, gnu ) {
     QMAKE_CC = gcc
     QMAKE_CXX = g++
     message("Using GNU C/C++ compiler (gcc/g++)")
 } else {
-    error("No known C/C++ compiler was specified. Use 'COMPILER=GCC' or 'COMPILER=CLANG' command-line argument.")
+    error("No known C/C++ compiler was specified. Use 'compiler=gnu' or 'compiler=clang' command-line argument.")
 }
 message()
 
 message("Checking for build type...")
-contains ( MODE, RELEASE ) {
+contains ( mode, release ) {
     DEFINES += MODE_RELEASE
     CONFIG += release
     message("Preparing for RELEASE build...")
-} else:contains ( MODE, DEBUG ) {
+} else:contains ( mode, debug ) {
     DEFINES += MODE_DEBUG
     CONFIG += debug
     message("Preparing for DEBUG build...")
 } else {
-    error("No known build mode was specified. Use 'MODE=DEBUG' or 'MODE=RELEASE' command-line argument.")
+    error("No known build mode was specified. Use 'mode=debug' or 'mode=release' command-line argument.")
 }
 
 message()

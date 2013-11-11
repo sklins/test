@@ -18,7 +18,8 @@ void UT_Num_Operations() {
 }
 
 void UT_Num() {
+    MESSAGE("Num unittest...");
     UT_Num_Compare();
     UT_Num_Operations();
-    MESSAGE("Num unittest... ok");
+    MESSAGE("Num unittest: ok");
 }
