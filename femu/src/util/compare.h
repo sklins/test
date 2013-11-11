@@ -7,7 +7,7 @@ const TEqTestRes OBJECTS_DIFFER = false;
 
 #define DECLARE_EQUALITY_TESTS(type) \
     bool operator==(type a, type b); \
-    bool operator!=(type a, type b); \
+    bool operator!=(type a, type b);
 
 #define IMPLEMENT_EQUALITY_TESTS(type, function) \
     bool operator==(type a, type b) { return function(a, b) == OBJECTS_ARE_EQUAL; } \

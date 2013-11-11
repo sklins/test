@@ -1,4 +1,4 @@
-#include "tests.h"
+#include <ut/tests.h>
 #include <util/num.h>
 
 void UT_Num_Compare() {
