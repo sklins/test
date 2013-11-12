@@ -18,7 +18,7 @@ public:
     public: \
         name(); \
         name(const QString &); \
-    }
+    };
 
 #define IMPLEMENT_EXCEPTION_CLASS_WITH_BASE(name, base) \
     name::name(): base() {} \
@@ -27,3 +27,11 @@ public:
 
 #define DECLARE_EXCEPTION_CLASS(name) DECLARE_EXCEPTION_CLASS_WITH_BASE(name, TException)
 #define IMPLEMENT_EXCEPTION_CLASS(name) IMPLEMENT_EXCEPTION_CLASS_WITH_BASE(name, TException)
+
+
+#define THROW(class, message) \
+    { \
+        QString THROW_DECLARATION_BUFFER_STRING; \
+        QTextStream(&THROW_DECLARATION_BUFFER_STRING) << message; \
+        throw class(THROW_DECLARATION_BUFFER_STRING); \
+    }
