@@ -3,7 +3,7 @@
 #include "prop.h"
 
 class TException {
-private:
+protected:
     QString Message;
 
 public:
@@ -11,27 +11,31 @@ public:
     TException(const QString &);
 
     DECLARE_PROPERTY_GETTER(QString, GetMessage);
+    void Display(QTextStream &s) const;
+    void Display() const;
 };
 
-#define DECLARE_EXCEPTION_CLASS_WITH_BASE(name, base) \
+#define DEFINE_EXCEPTION_CLASS_WITH_BASE_AND_MESSAGE(name, base, defmessage) \
     class name: public base { \
     public: \
-        name(); \
-        name(const QString &); \
+        name(): base(defmessage + QString(": ")) {} \
+        name(const QString &msg): base(msg) {} \
+         \
+        template < typename PType > \
+        name & operator<<(PType obj) { \
+            QTextStream(&Message) << obj; \
+            return *this; \
+        } \
     };
 
-#define IMPLEMENT_EXCEPTION_CLASS_WITH_BASE(name, base) \
-    name::name(): base() {} \
-    name::name(const QString &message): base(message) {}
+
+#define DEFINE_EXCEPTION_CLASS_WITH_BASE(name, base) \
+    DEFINE_EXCEPTION_CLASS_WITH_BASE_AND_MESSAGE(name, base, "")
 
 
-#define DECLARE_EXCEPTION_CLASS(name) DECLARE_EXCEPTION_CLASS_WITH_BASE(name, TException)
-#define IMPLEMENT_EXCEPTION_CLASS(name) IMPLEMENT_EXCEPTION_CLASS_WITH_BASE(name, TException)
+#define DEFINE_EXCEPTION_CLASS_WITH_MESSAGE(name, defmessage) \
+    DEFINE_EXCEPTION_CLASS_WITH_BASE_AND_MESSAGE(name, TException, defmessage)
 
 
-#define THROW(class, message) \
-    { \
-        QString THROW_DECLARATION_BUFFER_STRING; \
-        QTextStream(&THROW_DECLARATION_BUFFER_STRING) << message; \
-        throw class(THROW_DECLARATION_BUFFER_STRING); \
-    }
+#define DEFINE_EXCEPTION_CLASS(name) \
+    DEFINE_EXCEPTION_CLASS_WITH_BASE_AND_MESSAGE(name, TException, defmessage)
