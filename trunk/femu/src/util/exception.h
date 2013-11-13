@@ -15,10 +15,10 @@ public:
     void Display() const;
 };
 
-#define DEFINE_EXCEPTION_CLASS_WITH_BASE_AND_MESSAGE(name, base, defmessage) \
+#define DEFINE_EXCEPTION_CLASS_WITH_BASE(name, base) \
     class name: public base { \
     public: \
-        name(): base(defmessage + QString(": ")) {} \
+        name(): base(QString("[") + QString(#name) + QString("]: ")) {} \
         name(const QString &msg): base(msg) {} \
          \
         template < typename PType > \
@@ -28,14 +28,5 @@ public:
         } \
     };
 
-
-#define DEFINE_EXCEPTION_CLASS_WITH_BASE(name, base) \
-    DEFINE_EXCEPTION_CLASS_WITH_BASE_AND_MESSAGE(name, base, "")
-
-
-#define DEFINE_EXCEPTION_CLASS_WITH_MESSAGE(name, defmessage) \
-    DEFINE_EXCEPTION_CLASS_WITH_BASE_AND_MESSAGE(name, TException, defmessage)
-
-
 #define DEFINE_EXCEPTION_CLASS(name) \
-    DEFINE_EXCEPTION_CLASS_WITH_BASE_AND_MESSAGE(name, TException, defmessage)
+    DEFINE_EXCEPTION_CLASS_WITH_BASE(name, TException)
