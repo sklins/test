@@ -15,6 +15,9 @@ void UT_Num_Operations() {
     ASSERT(EQ(Sin(NumPi), 0));
     ASSERT(EQ(Sin(NumPi / 2), 1));
     ASSERT(EQ(Cos(NumPi), -1));
+    ASSERT(EQ(Exp(0), 1));
+    ASSERT(EQ(Exp(1), NumE));
+    ASSERT(EQ(Exp(-1), 1 / NumE));
 }
 
 void UT_Num() {
