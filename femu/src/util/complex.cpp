@@ -53,3 +53,9 @@ TNum Re(const TComplex &x) {
 TNum Im(const TComplex &x) {
     return x.Im;
 }
+
+TComplex ComplexExp(const TComplex &x) {
+    // TODO: implement
+    NOT_IMPLEMENTED;
+}
+
