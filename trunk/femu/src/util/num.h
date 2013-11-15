@@ -17,6 +17,7 @@ DECLARE_PRECISE_COMPARATORS(TNum, TNum, StandardPrecision)
 
 TNum Pow(TNum, TNum);
 TNum Sqrt(TNum);
+TNum Exp(TNum);
 TNum Sin(TNum);
 TNum Cos(TNum);
 TNum ArcSin(TNum);

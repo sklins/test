@@ -17,6 +17,10 @@ TNum Sqrt(TNum a) {
     return sqrt(a);
 }
 
+TNum Exp(TNum a) {
+    return exp(a);
+}
+
 TNum Sin(TNum a) {
     return sin(a);
 }
