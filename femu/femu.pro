@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += qt console warn_off
+CONFIG += qt console
 QT = core
 
 OBJECTS_DIR = obj/
@@ -27,6 +27,13 @@ contains ( compiler, clang ) {
     message("Using GNU C/C++ compiler (gcc/g++)")
 } else {
     error("No known C/C++ compiler was specified. Use 'compiler=gnu' or 'compiler=clang' command-line argument.")
+}
+
+contains ( warnings, off ) {
+    CONFIG += warn_off
+    message("Compiler warnings are disabled by user.")
+} else {
+    message("Compiler warnings are enabled by default. Use 'warnings=off' to disable them.")
 }
 message()
 
