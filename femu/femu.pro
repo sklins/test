@@ -21,19 +21,17 @@ contains ( compiler, clang ) {
     QMAKE_CC = clang
     QMAKE_CXX = clang++
     message("Using Apple CLang C/C++ compiler (clang/clang++)")
-} else:contains ( compiler, gnu ) {
+} else {
     QMAKE_CC = gcc
     QMAKE_CXX = g++
-    message("Using GNU C/C++ compiler (gcc/g++)")
-} else {
-    error("No known C/C++ compiler was specified. Use 'compiler=gnu' or 'compiler=clang' command-line argument.")
+    message("Using GNU C/C++ compiler (gcc/g++) by default. Specify 'compiler=clang' command-line argument to use Apple CLang C/C++ compiler.")
 }
 
 contains ( warnings, off ) {
     CONFIG += warn_off
     message("Compiler warnings are disabled by user.")
 } else {
-    message("Compiler warnings are enabled by default. Use 'warnings=off' to disable them.")
+    message("Compiler warnings are enabled by default. Specify 'warnings=off' to disable them.")
 }
 message()
 
@@ -42,12 +40,10 @@ contains ( mode, release ) {
     DEFINES += MODE_RELEASE
     CONFIG += release
     message("Preparing for RELEASE build...")
-} else:contains ( mode, debug ) {
+} else {
     DEFINES += MODE_DEBUG
     CONFIG += debug
-    message("Preparing for DEBUG build...")
-} else {
-    error("No known build mode was specified. Use 'mode=debug' or 'mode=release' command-line argument.")
+    message("Preparing for DEBUG build (by default)... Specify 'mode=release' command-line argument to create release makefile.")
 }
 
 message()
