@@ -54,6 +54,10 @@ TNum Im(const TComplex &x) {
     return x.Im;
 }
 
+TComplex Conjugate(const TComplex &x) {
+    return TComplex(Re(x), -Im(x));
+}
+
 TComplex ComplexExp(const TComplex &x) {
     // TODO: implement
     NOT_IMPLEMENTED;

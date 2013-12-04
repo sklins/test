@@ -30,5 +30,6 @@ TNum Abs(const TComplex &);
 TNum Arg(const TComplex &);
 TNum Re(const TComplex &);
 TNum Im(const TComplex &);
+TComplex Conjugate(const TComplex &);
 TComplex ComplexExp(const TComplex &);
 
