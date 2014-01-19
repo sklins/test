@@ -13,4 +13,7 @@
 #   define DEBUG_MESSAGE(msg)
 #endif
 
-#define ASSERT assert
+#define VERIFY(x) \
+    MESSAGE("Verifying " << #x); \
+    assert(x)
+
