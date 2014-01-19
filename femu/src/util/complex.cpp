@@ -29,8 +29,7 @@ TComplex Multiplication(const TComplex &a, const TComplex &b) {
 }
 
 TComplex Divizion(const TComplex &a, const TComplex &b) {
-    // TODO: implement
-    NOT_IMPLEMENTED;
+	return TComplex ((a.Re * b.Re + a.Im * b.Im) / (b.Re * b.Re + b.Im * b.Im), (a.Im * b.Re - a.Re * b.Im) / (b.Re * b.Re + b.Im * b.Im));
 }
 
 TNum AbsSquared(const TComplex &x) {
