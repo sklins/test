@@ -29,7 +29,9 @@ TComplex Multiplication(const TComplex &a, const TComplex &b) {
 }
 
 TComplex Divizion(const TComplex &a, const TComplex &b) {
-	return TComplex ((a.Re * b.Re + a.Im * b.Im) / (b.Re * b.Re + b.Im * b.Im), (a.Im * b.Re - a.Re * b.Im) / (b.Re * b.Re + b.Im * b.Im));
+    ASSERT(NE(b, 0));
+    TNum bAbs2 = AbsSquared(b);
+	return TComplex((a.Re * b.Re + a.Im * b.Im) / bAbs2, (a.Im * b.Re - a.Re * b.Im) / bAbs2);
 }
 
 TNum AbsSquared(const TComplex &x) {
