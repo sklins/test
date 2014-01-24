@@ -4,6 +4,12 @@
 
 #define NOT_IMPLEMENTED assert(false);
 
+#ifdef MODE_RELEASE
+#   define ASSERT(x) assert(x)
+#else
+#   define ASSERT(x)
+#endif
+
 typedef qint8 TInt8;
 typedef quint8 TUInt8;
 
