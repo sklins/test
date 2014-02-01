@@ -1,6 +1,7 @@
 #pragma once
 #include <QtCore>
 #include <assert.h>
+#include <inttypes.h>
 
 #define NOT_IMPLEMENTED assert(false);
 
