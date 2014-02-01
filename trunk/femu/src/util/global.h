@@ -5,7 +5,7 @@
 
 #define NOT_IMPLEMENTED assert(false);
 
-#ifdef MODE_RELEASE
+#ifdef MODE_DEBUG
 #   define ASSERT(x) assert(x)
 #else
 #   define ASSERT(x)
