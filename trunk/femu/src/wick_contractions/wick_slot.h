@@ -5,6 +5,9 @@ class TWickSlot
 {    
     public:
         TWickSlot(uint32_t particleTypeCount, uint32_t equivalenceClass, uint32_t inconsistencyMask);
+        
+        static bool EquivalentSlots(const TWickSlot &a, const TWickSlot &b);
+        static bool AllowConnection(const TWickSlot &a, const TWickSlot &b, uint32_t particleType);
     
     private:
         QVector<uint32_t> InitialFreedomDegrees;
