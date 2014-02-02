@@ -5,6 +5,9 @@ void UT_WickSlot_Contractions() {
     uint32_t const electron = 0;
     uint32_t const photon = 1;
 
+    UNUSED(electron);
+    UNUSED(photon);
+
     TWickSlot inputElectron1(2, 1, 1);
     TWickSlot inputElectron2(2, 2, 1);
     TWickSlot ouputElectron1(2, 3, 2);

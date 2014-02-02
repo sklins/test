@@ -11,6 +11,8 @@
 #   define ASSERT(x)
 #endif
 
+#define UNUSED(x) (void)(x)
+
 typedef qint8 TInt8;
 typedef quint8 TUInt8;
 
