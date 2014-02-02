@@ -44,6 +44,7 @@ TNum Abs(const TComplex &x) {
 
 TNum Arg(const TComplex &x) {
     // TODO: implement
+    UNUSED(x);
     NOT_IMPLEMENTED;
 }
 
@@ -61,6 +62,7 @@ TComplex Conjugate(const TComplex &x) {
 
 TComplex ComplexExp(const TComplex &x) {
     // TODO: implement
+    UNUSED(x);
     NOT_IMPLEMENTED;
 }
 
