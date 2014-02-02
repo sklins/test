@@ -63,3 +63,19 @@ void TWickSlot::InitializeFreedomDegree(uint32_t particleType, uint32_t count)
     CurrentFreedomDegrees[particleType] = count;
     InitialFreedomDegrees[particleType] = count;
 }
+
+bool TWickSlot::IsFinalized()  const
+{
+    for (int i = 0; i < CurrentFreedomDegrees.size(); i++)
+        if (CurrentFreedomDegrees[i] > 0) return false;
+    return true;    
+}
+
+uint32_t TWickSlot::GetPendingParticleType() const
+{
+    ASSERT(!IsFinalized());
+    for (int i = 0; i < CurrentFreedomDegrees.size(); i++)
+        if (CurrentFreedomDegrees[i] > 0) return (uint32_t)i;
+    return (uint32_t)CurrentFreedomDegrees.size();
+}
+

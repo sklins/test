@@ -12,6 +12,8 @@ class TWickSlot
         static void Contract(TWickSlot &a, TWickSlot &b, uint32_t particleType);
         static void BreakContraction(TWickSlot &a, TWickSlot &b, uint32_t particleType);
         void InitializeFreedomDegree(uint32_t particleType, uint32_t count);
+        bool IsFinalized() const;
+        uint32_t GetPendingParticleType() const;
     
     private:
         QVector<uint32_t> InitialFreedomDegrees;
