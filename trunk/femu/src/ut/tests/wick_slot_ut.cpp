@@ -48,6 +48,9 @@ void UT_WickSlot_Contractions_QED() {
 
     VERIFY(!TWickSlot::AllowContraction(QEDVertex1, QEDVertex1, electron));
 
+    VERIFY(!inputElectron1.IsFinalized());
+    VERIFY(!QEDVertex1.IsFinalized());
+
     VERIFY(TWickSlot::AllowContraction(QEDVertex1, QEDVertex2, photon));
     TWickSlot::Contract(QEDVertex1, QEDVertex2, photon);
 
@@ -60,12 +63,22 @@ void UT_WickSlot_Contractions_QED() {
     VERIFY(TWickSlot::AllowContraction(ouputElectron1, QEDVertex2, electron));
     TWickSlot::Contract(ouputElectron1, QEDVertex2, electron);
 
+    VERIFY(ouputElectron2.GetPendingParticleType() == electron);
+    VERIFY(QEDVertex1.IsFinalized());
+    VERIFY(QEDVertex2.GetPendingParticleType() == electron);
+
     VERIFY(TWickSlot::AllowContraction(ouputElectron2, QEDVertex2, electron));
     TWickSlot::Contract(ouputElectron2, QEDVertex2, electron);
+
+    VERIFY(QEDVertex2.IsFinalized());
+    VERIFY(inputElectron1.IsFinalized());
 
     VERIFY(!TWickSlot::AllowContraction(QEDVertex1, QEDVertex2, photon));
     TWickSlot::BreakContraction(QEDVertex1, QEDVertex2, photon);
     VERIFY(TWickSlot::AllowContraction(QEDVertex1, QEDVertex2, photon));
+
+    VERIFY(QEDVertex1.GetPendingParticleType() == photon);
+    VERIFY(QEDVertex2.GetPendingParticleType() == photon);
 }
 
 void UT_WickSlot_Contractions_F4() {
