@@ -13,7 +13,7 @@ bool TWickSlot::EquivalentSlots(const TWickSlot &a, const TWickSlot &b)
     return a.EquivalenceClass == b.EquivalenceClass && a.CurrentFreedomDegrees == b.CurrentFreedomDegrees;
 }
 
-bool TWickSlot::AllowConnection(const TWickSlot &a, const TWickSlot &b, uint32_t particleType)
+bool TWickSlot::AllowContraction(const TWickSlot &a, const TWickSlot &b, uint32_t particleType)
 {
     ASSERT(particleType < (uint32_t)a.CurrentFreedomDegrees.size() && particleType < (uint32_t)b.CurrentFreedomDegrees.size());
     if (&a == &b)
