@@ -22,7 +22,7 @@ bool TWickSlot::AllowConnection(const TWickSlot &a, const TWickSlot &b, uint32_t
     }
     else
     {
-        return a.CurrentFreedomDegrees[particleType] > 0 && b.CurrentFreedomDegrees[particleType] > 0 && (a.InconsistencyMask & b.InconsistencyMask) != 0;
+        return a.CurrentFreedomDegrees[particleType] > 0 && b.CurrentFreedomDegrees[particleType] > 0 && (a.InconsistencyMask & b.InconsistencyMask) == 0;
     }
 }
 
@@ -43,10 +43,18 @@ void TWickSlot::Contract(TWickSlot &a, TWickSlot &b, uint32_t particleType)
 
 void TWickSlot::BreakContraction(TWickSlot &a, TWickSlot &b, uint32_t particleType)
 {
-    ASSERT(a.CurrentFreedomDegrees[particleType] < a.InitialFreedomDegrees[particleType]
-        && b.CurrentFreedomDegrees[particleType] < b.InitialFreedomDegrees[particleType]);
-    a.CurrentFreedomDegrees[particleType]++;
-    b.CurrentFreedomDegrees[particleType]++; 
+    if (&a == &b)
+    {
+        ASSERT(a.CurrentFreedomDegrees[particleType] < a.InitialFreedomDegrees[particleType] - 1);
+        a.CurrentFreedomDegrees[particleType] += 2;
+    }
+    else
+    {
+        ASSERT(a.CurrentFreedomDegrees[particleType] < a.InitialFreedomDegrees[particleType]
+            && b.CurrentFreedomDegrees[particleType] < b.InitialFreedomDegrees[particleType]);
+        a.CurrentFreedomDegrees[particleType]++;
+        b.CurrentFreedomDegrees[particleType]++; 
+    }
 }
 
 void TWickSlot::InitializeFreedomDegree(uint32_t particleType, uint32_t count)
