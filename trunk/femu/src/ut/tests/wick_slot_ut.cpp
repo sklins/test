@@ -1,5 +1,5 @@
 #include <ut/tests.h>
-#include <wick_contractions/wick_slot.h>
+#include <wick/wick_slot.h>
 
 void UT_WickSlot_Contractions_QED() {
     uint32_t const electron = 0;
