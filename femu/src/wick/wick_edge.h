@@ -1,5 +1,6 @@
 #pragma once
 #include <util/global.h>
+#include "wick_slot.h"
 
 struct TWickEdge
 {
