@@ -7,7 +7,8 @@ class TWickTask
 {    
     public:
         QVector<TWickSlot> Slots;
-    
+        QString ToString() const;
+   
     private:
         QVector<TWickEdge> CurrentEdges;
 };
