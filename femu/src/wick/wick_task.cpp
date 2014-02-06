@@ -14,12 +14,13 @@ QString TWickTask::ToString() const
     QString result;
     QTextStream out(&result);
     
-    out << "Wick task\nTotal slots: "<< CurrentEdges.size();
+    out << "Wick task\nTotal slots: " << CurrentEdges.size() << "\n";
     for (int i = 0; i < CurrentEdges.size(); i++)
     {
         ASSERT(slotIndex.contains(CurrentEdges[i].Source) && slotIndex.contains(CurrentEdges[i].Target));
-        out << "[" << slotIndex[CurrentEdges[i].Source] << "] - p" << CurrentEdges[i].ParticleType << "- [" << slotIndex[CurrentEdges[i].Target] << "]\n";
+        out << "    [" << slotIndex[CurrentEdges[i].Source] << "] - p" << CurrentEdges[i].ParticleType << "- [" <<  slotIndex[CurrentEdges[i].Target] << "]\n";
     }
+    out << "End of wick task\n";
     out.flush();
     return result;
 }
