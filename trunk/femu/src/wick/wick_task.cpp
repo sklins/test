@@ -24,3 +24,38 @@ QString TWickTask::ToString() const
     out.flush();
     return result;
 }
+
+void TWickTask::Solve()
+{
+    QTextStream output(stdout);
+    
+    int i = -1;
+    
+    for (int k = 0; k < Slots.size(); k++)
+    {
+        if (Slots[k].IsFinalized())
+            continue;
+        i = k;
+        break;
+    }
+    
+    if (i == -1)
+    {
+        output << ToString() << "\n";
+        output.flush();
+        return;
+    }
+    
+    uint32_t p = Slots[i].GetPendingParticleType();
+    
+    for (int j = i; j < Slots.size(); j++)
+    {
+        if (!TWickSlot::AllowContraction(Slots[i], Slots[j], p))
+            continue;
+        TWickSlot::Contract(Slots[i], Slots[j], p);
+        CurrentEdges.append(TWickEdge(&Slots[i], &Slots[j], p));
+        Solve();
+        TWickSlot::BreakContraction(Slots[i], Slots[j], p);
+        CurrentEdges.pop_back();
+    }
+}

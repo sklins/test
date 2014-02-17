@@ -5,6 +5,7 @@ class TWickSlot
 {    
     public:
         TWickSlot(uint32_t particleTypeCount, uint32_t equivalenceClass, uint32_t inconsistencyMask, bool allowSimpleLoops = false);
+        TWickSlot();
         
     public:
         static bool EquivalentSlots(const TWickSlot &a, const TWickSlot &b);

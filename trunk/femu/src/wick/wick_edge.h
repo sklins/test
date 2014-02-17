@@ -8,11 +8,14 @@ struct TWickEdge
         inline TWickEdge(const TWickSlot* source, const TWickSlot* target, uint32_t particleType)
             : Source(source), Target(target), ParticleType(particleType)
         { }
+    
+        inline TWickEdge()
+            : Source(NULL), Target(NULL), ParticleType(0)
+        { }
 
     
     public:
-        const TWickSlot* const Source;
-        const TWickSlot* const Target;
-        uint32_t const ParticleType;
+        const TWickSlot* Source;
+        const TWickSlot* Target;
+        uint32_t ParticleType;
 };
-
