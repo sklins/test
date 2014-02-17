@@ -7,7 +7,12 @@ TWickSlot::TWickSlot(uint32_t particleTypeCount, uint32_t equivalenceClass, uint
     CurrentFreedomDegrees.resize(particleTypeCount);
 }
 
-	
+
+TWickSlot::TWickSlot()
+    : EquivalenceClass(), InconsistencyMask(), AllowSimpleLoops()
+{
+}
+
 bool TWickSlot::EquivalentSlots(const TWickSlot &a, const TWickSlot &b)
 {
     return a.EquivalenceClass == b.EquivalenceClass && a.CurrentFreedomDegrees == b.CurrentFreedomDegrees;
