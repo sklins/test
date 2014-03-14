@@ -52,6 +52,13 @@ void TWickTask::Solve()
     {
         if (!TWickSlot::AllowContraction(Slots[i], Slots[j], p))
             continue;
+        
+        for (int k = i + 1; k < j; k++)
+        {
+            if (TWickSlot::EquivalentSlots(Slots[k], Slots[j]))
+                continue;
+        }
+        
         TWickSlot::Contract(Slots[i], Slots[j], p);
         CurrentEdges.append(TWickEdge(&Slots[i], &Slots[j], p));
         Solve();
