@@ -1,4 +1,5 @@
 #pragma once
+#include "graph_types.h"
 
 class TVertex
 {
