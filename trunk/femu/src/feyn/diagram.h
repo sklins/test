@@ -1,8 +1,7 @@
 #pragma once
 #include <util/global.h>
-#include "internal_edge.h"
-#include "external_edge.h"
-#include "interaction_vertex.h"
+#include "edge.h"
+#include "vertex.h"
 
 class TDiagram
 {
@@ -10,7 +9,7 @@ class TDiagram
         ~TDiagram ();
     
     private:
-        QSet<TInternalEdge*> InternalEdges;
-        QSet<TExternalEdge*> ExternalEdges;
-        QSet<TInteractionVertex*> InteractionVertexes;
+        QSet<TEdge*> Edges;
+        QSet<TVertex*> Interactions;
+        QSet<TVertex*> Correlations;
 };

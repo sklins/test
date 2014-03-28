@@ -2,19 +2,12 @@
 
 TDiagram::~TDiagram()
 {
-    for (QSet<TInternalEdge*>::Iterator i = InternalEdges.begin();
-         i != InternalEdges.end(); i++)
-    {
+    for (QSet<TEdge*>::Iterator i = Edges.begin(); i != Edges.end(); i++)
         delete *i;
-    }
-    for (QSet<TExternalEdge*>::Iterator i = ExternalEdges.begin();
-         i != ExternalEdges.end(); i++)
-    {
+
+    for (QSet<TVertex*>::Iterator i = Interactions.begin(); i != Interactions.end(); i++)
         delete *i;
-    }
-    for (QSet<TInteractionVertex*>::Iterator i = InteractionVertexes.begin();
-         i != InteractionVertexes.end(); i++)
-    {
+
+    for (QSet<TVertex*>::Iterator i = Correlations.begin(); i != Correlations.end(); i++)
         delete *i;
-    }
 }
