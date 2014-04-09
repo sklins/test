@@ -18,6 +18,9 @@ class TDiagram
         // Checks whether the diagram is consistent
         // (meaning that there are no vacuum bubbles)
         bool CheckConsistency() const;
+
+        // Exports the diagram in the graphviz (dot) format
+        QString ExportToDot() const;
     
     private:
         QSet<TEdge*> Edges;
