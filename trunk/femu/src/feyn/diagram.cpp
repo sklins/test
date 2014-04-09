@@ -58,3 +58,8 @@ void TDiagram::RemoveVertex(TVertex* x)
 bool TDiagram::CheckConsistency() const {
     NOT_IMPLEMENTED;
 }
+
+QString TDiagram::ExportToDot() const {
+    NOT_IMPLEMENTED;
+}
+
