@@ -54,3 +54,7 @@ void TDiagram::RemoveVertex(TVertex* x)
     else Correlations.remove(x);
     delete x;
 }
+
+bool TDiagram::CheckConsistency() const {
+    NOT_IMPLEMENTED;
+}

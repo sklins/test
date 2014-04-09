@@ -12,7 +12,12 @@ class TDiagram
         TVertex* AddCorrelationVertex();
         TEdge* AddEdge(TVertex* a, TVertex* b);
         void RemoveEdge(TEdge* e);
-        void RemoveVertex(TVertex* x); // должна удалить все инцидентные ребра
+        void RemoveVertex(TVertex* x);
+
+    public:
+        // Checks whether the diagram is consistent
+        // (meaning that there are no vacuum bubbles)
+        bool CheckConsistency() const;
     
     private:
         QSet<TEdge*> Edges;
