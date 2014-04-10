@@ -59,7 +59,24 @@ bool TDiagram::CheckConsistency() const {
     NOT_IMPLEMENTED;
 }
 
-QString TDiagram::ExportToDot() const {
-    NOT_IMPLEMENTED;
+QString TDiagram::ExportToDot(const QString& graphName) const {
+    QString result;
+    QTextStream out(&result);
+    
+    out << "graph " << graphName << " {\n";
+    for (QSet<TVertex*>::ConstIterator i = Correlations.begin(); i != Correlations.end(); i++)
+        out << "    " << *i << " [shape=none label=""];\n";
+    
+    for (QSet<TVertex*>::ConstIterator i = Interactions.begin(); i != Interactions.end(); i++)
+        out << "    " << *i << " [shape=point label=""];\n";
+    out << "\n";
+    
+    for (QSet<TEdge*>::ConstIterator i = Edges.begin(); i != Edges.end(); i++)
+    {
+        out << "    " << (*i)->A << " -- " << (*i)->B << ";\n";
+    }
+    out << "}\n";
+    
+    out.flush();
+    return result;
 }
-
