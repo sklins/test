@@ -20,7 +20,7 @@ class TDiagram
         bool CheckConsistency() const;
 
         // Exports the diagram in the graphviz (dot) format
-        QString ExportToDot() const;
+        QString ExportToDot(const QString&) const;
     
     private:
         QSet<TEdge*> Edges;
