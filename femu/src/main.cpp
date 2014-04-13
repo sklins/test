@@ -1,6 +1,7 @@
 #include <QtCore>
 #include <util/exception.h>
 #include <ut/tests.h>
+#include <ut/wick_example.h>
 
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
@@ -13,6 +14,8 @@ int main(int argc, char *argv[]) {
         } catch (const TException &e) {
             e.Display();
         }
+    } else if (args[1] == "wick-example") {
+        GenerateContractionsForSampleTask();
     } else {
         if (args[1] != "help") {
             MESSAGE("Unknown action: " << args[1]);
@@ -22,6 +25,7 @@ int main(int argc, char *argv[]) {
         MESSAGE("Available actions:");
         
         MESSAGE("bin/femu ut (or just bin/femu) -- run unittests");
+        MESSAGE("bin/femu wick-example          -- run example wick task");
         MESSAGE("bin/femu help                  -- show this info");
     }
 
