@@ -56,7 +56,36 @@ void TDiagram::RemoveVertex(TVertex* x)
 }
 
 bool TDiagram::CheckConsistency() const {
-    NOT_IMPLEMENTED;
+    QSet<TVertex*> visited;
+    QStack <TVertex*> s;
+    TVertex* a;
+    
+    for (QSet<TVertex*>::ConstIterator cor = Correlations.begin(); cor != Correlations.end(); cor++)
+    {
+        ASSERT((*cor)->IncidentEdges.size() == 1);
+        visited << *cor;
+        s.push(*cor);
+    }
+    
+    while (!s.empty())
+    {
+        a = s.top();
+        s.pop();
+        for (QSet<TEdge*>::ConstIterator i = a->IncidentEdges.begin(); i != a->IncidentEdges.end(); i++)
+        {
+            ASSERT (((*i)->A == a) ^ ((*i)->B == a));
+            TVertex* b = ((*i)->A != a) ? (*i)->A : (*i)->B;
+            if (!visited.contains(b))
+            {
+                s.push(b);
+                visited << b;
+            }
+        }
+    }
+
+    for (QSet<TVertex*>::ConstIterator i = Interactions.begin(); i != Interactions.end(); i++)
+        if (!visited.contains(*i)) return false;
+    return true;
 }
 
 QString TDiagram::ExportToDot(const QString& graphName) const {
