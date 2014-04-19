@@ -1,0 +1,111 @@
+#include "diagram.h"
+
+TDiagram::~TDiagram()
+{
+    for (QSet<TEdge*>::Iterator i = Edges.begin(); i != Edges.end(); i++)
+        delete *i;
+
+    for (QSet<TVertex*>::Iterator i = Interactions.begin(); i != Interactions.end(); i++)
+        delete *i;
+
+    for (QSet<TVertex*>::Iterator i = Correlations.begin(); i != Correlations.end(); i++)
+        delete *i;
+}
+
+TVertex* TDiagram::AddInteractionVertex()
+{
+    TVertex *v = new TVertex();
+    Interactions << v;
+    return v;
+}
+
+TVertex* TDiagram::AddCorrelationVertex()
+{
+    TVertex *v = new TVertex();
+    Correlations << v;
+    return v;
+}
+
+TEdge* TDiagram::AddEdge(TVertex* a, TVertex* b)
+{
+    TEdge *ab = new TEdge(a, b);
+    Edges << ab;
+    a->IncidentEdges << ab;
+    b->IncidentEdges << ab;
+    return ab;
+}
+
+void TDiagram::RemoveEdge(TEdge* e)
+{
+    ASSERT(e->A != NULL && e->A->IncidentEdges.contains(e));
+    e->A->IncidentEdges.remove(e);
+    ASSERT(e->B != NULL && e->B->IncidentEdges.contains(e));
+    e->B->IncidentEdges.remove(e);
+    Edges.remove(e);
+    delete e;
+}
+
+void TDiagram::RemoveVertex(TVertex* x)
+{
+    while (x->IncidentEdges.size() > 0)
+        RemoveEdge(*x->IncidentEdges.begin());
+    ASSERT(Interactions.contains(x) ^ Correlations.contains(x));
+    if (Interactions.contains(x)) Interactions.remove(x);
+    else Correlations.remove(x);
+    delete x;
+}
+
+bool TDiagram::CheckConsistency() const {
+    QSet<TVertex*> visited;
+    QStack <TVertex*> s;
+    TVertex* a;
+    
+    for (QSet<TVertex*>::ConstIterator cor = Correlations.begin(); cor != Correlations.end(); cor++)
+    {
+        ASSERT((*cor)->IncidentEdges.size() == 1);
+        visited << *cor;
+        s.push(*cor);
+    }
+    
+    while (!s.empty())
+    {
+        a = s.top();
+        s.pop();
+        for (QSet<TEdge*>::ConstIterator i = a->IncidentEdges.begin(); i != a->IncidentEdges.end(); i++)
+        {
+            ASSERT (((*i)->A == a) ^ ((*i)->B == a));
+            TVertex* b = ((*i)->A != a) ? (*i)->A : (*i)->B;
+            if (!visited.contains(b))
+            {
+                s.push(b);
+                visited << b;
+            }
+        }
+    }
+
+    for (QSet<TVertex*>::ConstIterator i = Interactions.begin(); i != Interactions.end(); i++)
+        if (!visited.contains(*i)) return false;
+    return true;
+}
+
+QString TDiagram::ExportToDot(const QString& graphName) const {
+    QString result;
+    QTextStream out(&result);
+    
+    out << "graph " << graphName << " {\n";
+    for (QSet<TVertex*>::ConstIterator i = Correlations.begin(); i != Correlations.end(); i++)
+        out << "    " << *i << " [shape=none label=""];\n";
+    
+    for (QSet<TVertex*>::ConstIterator i = Interactions.begin(); i != Interactions.end(); i++)
+        out << "    " << *i << " [shape=point label=""];\n";
+    out << "\n";
+    
+    for (QSet<TEdge*>::ConstIterator i = Edges.begin(); i != Edges.end(); i++)
+    {
+        out << "    " << (*i)->A << " -- " << (*i)->B << ";\n";
+    }
+    out << "}\n";
+    
+    out.flush();
+    return result;
+}
