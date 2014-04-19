@@ -1,7 +1,7 @@
 #include "wick_slot.h"
 
-TWickSlot::TWickSlot(uint32_t particleTypeCount, uint32_t equivalenceClass, uint32_t inconsistencyMask, bool allowSimpleLoops)
-    : EquivalenceClass(equivalenceClass), InconsistencyMask(inconsistencyMask), AllowSimpleLoops(allowSimpleLoops)
+TWickSlot::TWickSlot(uint32_t particleTypeCount, uint32_t equivalenceClass, uint32_t inconsistencyMask, bool allowSimpleLoops, bool correlation)
+    : EquivalenceClass(equivalenceClass), InconsistencyMask(inconsistencyMask), AllowSimpleLoops(allowSimpleLoops), Correlation(correlation)
 {
     InitialFreedomDegrees.resize(particleTypeCount);
     CurrentFreedomDegrees.resize(particleTypeCount);
@@ -9,7 +9,7 @@ TWickSlot::TWickSlot(uint32_t particleTypeCount, uint32_t equivalenceClass, uint
 
 
 TWickSlot::TWickSlot()
-    : EquivalenceClass(), InconsistencyMask(), AllowSimpleLoops()
+    : EquivalenceClass(), InconsistencyMask(), AllowSimpleLoops(), Correlation()
 {
 }
 
