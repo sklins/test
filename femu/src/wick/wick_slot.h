@@ -4,9 +4,10 @@
 class TWickSlot
 {    
     public:
-        TWickSlot(uint32_t particleTypeCount, uint32_t equivalenceClass, uint32_t inconsistencyMask, bool allowSimpleLoops = false);
+        friend class TWickTask;
+        TWickSlot(uint32_t particleTypeCount, uint32_t equivalenceClass, uint32_t inconsistencyMask, bool allowSimpleLoops = false, bool correlation = false);
         TWickSlot();
-        
+    
     public:
         static bool EquivalentSlots(const TWickSlot &a, const TWickSlot &b);
         static bool AllowContraction(const TWickSlot &a, const TWickSlot &b, uint32_t particleType);
@@ -22,5 +23,6 @@ class TWickSlot
         uint32_t EquivalenceClass;
         uint32_t InconsistencyMask;
         bool AllowSimpleLoops;
+        bool Correlation;
 };
 
