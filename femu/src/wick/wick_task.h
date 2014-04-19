@@ -2,7 +2,6 @@
 #include <util/global.h>
 #include "wick_slot.h"
 #include "wick_edge.h"
-#include <feyn/diagram.h>
 
 class TWickTask
 {    
@@ -10,7 +9,6 @@ class TWickTask
         QVector<TWickSlot> Slots;
         QString ToString() const;
         void Solve();
-        void ToDiagram(TDiagram* d);
    
     private:
         QVector<TWickEdge> CurrentEdges;

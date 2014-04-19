@@ -66,19 +66,3 @@ void TWickTask::Solve()
         CurrentEdges.pop_back();
     }
 }
-
-void TWickTask::ToDiagram(TDiagram* d)
-{
-    QHash<const TWickSlot*, TVertex*> slotVertex;
-    
-    for (int i = 0; i < this->Slots.size(); i++)
-    {
-        if (this->Slots[i].Correlation) slotVertex[&Slots[i]] = d->AddCorrelationVertex();
-        else slotVertex[&Slots[i]] = d->AddInteractionVertex();
-    }
-    
-    for (int i = 0; i < this->CurrentEdges.size(); i++)
-    {
-        d->AddEdge(slotVertex[this->CurrentEdges[i].Source], slotVertex[this->CurrentEdges[i].Target]);
-    }
-}
