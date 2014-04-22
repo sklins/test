@@ -25,10 +25,8 @@ QString TWickTask::ToString() const
     return result;
 }
 
-void TWickTask::Solve()
+void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency)
 {
-    QTextStream output(stdout);
-    
     int i = -1;
     
     for (int k = 0; k < Slots.size(); k++)
@@ -41,8 +39,11 @@ void TWickTask::Solve()
     
     if (i == -1)
     {
-        output << ToString() << "\n";
-        output.flush();
+        TDiagram* d = new TDiagram();
+        ToDiagram(d);
+        if (!checkConsistency || d->CheckConsistency()) output->append(d);
+        else delete d;
+        
         return;
     }
     
@@ -61,7 +62,7 @@ void TWickTask::Solve()
         
         TWickSlot::Contract(Slots[i], Slots[j], p);
         CurrentEdges.append(TWickEdge(&Slots[i], &Slots[j], p));
-        Solve();
+        Solve(output, checkConsistency);
         TWickSlot::BreakContraction(Slots[i], Slots[j], p);
         CurrentEdges.pop_back();
     }

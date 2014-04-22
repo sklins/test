@@ -32,5 +32,5 @@ void GenerateContractionsForSampleTask() {
     // And this
     // task.Slots << F4Vertex2;
 
-    task.Solve();
+    //task.Solve();
 }
