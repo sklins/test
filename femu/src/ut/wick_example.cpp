@@ -9,23 +9,23 @@ void GenerateContractionsForSampleTask() {
 
     uint32_t const scalarBoson = 0;
 
-    TWickSlot inputBoson1(1, 1, 1);
+    TWickSlot inputBoson1(1, 1, 1, false, true);
     inputBoson1.InitializeFreedomDegree(scalarBoson, 1);
 
-    TWickSlot inputBoson2(1, 1, 1);
+    TWickSlot inputBoson2(1, 1, 1, false, true);
     inputBoson2.InitializeFreedomDegree(scalarBoson, 1);
 
-    TWickSlot ouputBoson1(1, 2, 2);
+    TWickSlot ouputBoson1(1, 2, 2, false, true);
     ouputBoson1.InitializeFreedomDegree(scalarBoson, 1);
     
-    TWickSlot ouputBoson2(1, 2, 2);
+    TWickSlot ouputBoson2(1, 2, 2, false, true);
     ouputBoson2.InitializeFreedomDegree(scalarBoson, 1);
 
-    TWickSlot F4Vertex1(1, 3, 0, true);
+    TWickSlot F4Vertex1(1, 3, 0, true, false);
     F4Vertex1.InitializeFreedomDegree(scalarBoson, 4);
     
     // Uncomment this if you want another interaction vertex
-    // TWickSlot F4Vertex2(1, 4, 0, true);
+    // TWickSlot F4Vertex2(1, 4, 0, true, false);
     // F4Vertex2.InitializeFreedomDegree(scalarBoson, 4);
 
     TWickTask task;
@@ -47,7 +47,7 @@ void GenerateContractionsForSampleTask() {
         file.open(QIODevice::WriteOnly);
         
         QTextStream stream(&file);
-        stream << res[i]->ExportToDot("Diagram #" + QString::number(i + 1));
+        stream << res[i]->ExportToDot("Diagram_" + QString::number(i + 1));
         stream.flush();
     }
 }
