@@ -80,6 +80,6 @@ void TWickTask::ToDiagram(TDiagram* d)
     
     for (int i = 0; i < this->CurrentEdges.size(); i++)
     {
-        d->AddEdge(slotVertex[this->CurrentEdges[i].Source], slotVertex[this->CurrentEdges[i].Target]);
+        d->AddEdge(slotVertex[this->CurrentEdges[i].Source], slotVertex[this->CurrentEdges[i].Target], this->ParticleBase[i]);
     }
 }

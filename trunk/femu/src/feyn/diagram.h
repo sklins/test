@@ -2,6 +2,7 @@
 #include <util/global.h>
 #include "edge.h"
 #include "vertex.h"
+#include "particle.h"
 
 class TDiagram
 {
@@ -10,7 +11,7 @@ class TDiagram
     public:
         TVertex* AddInteractionVertex();
         TVertex* AddCorrelationVertex();
-        TEdge* AddEdge(TVertex* a, TVertex* b);
+        TEdge* AddEdge(TVertex* a, TVertex* b,TParticle* p);
         void RemoveEdge(TEdge* e);
         void RemoveVertex(TVertex* x);
 

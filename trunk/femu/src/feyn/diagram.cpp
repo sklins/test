@@ -26,9 +26,9 @@ TVertex* TDiagram::AddCorrelationVertex()
     return v;
 }
 
-TEdge* TDiagram::AddEdge(TVertex* a, TVertex* b)
+TEdge* TDiagram::AddEdge(TVertex* a, TVertex* b, TParticle *p)
 {
-    TEdge *ab = new TEdge(a, b);
+    TEdge *ab = new TEdge(a, b, p);
     Edges << ab;
     a->IncidentEdges << ab;
     b->IncidentEdges << ab;
@@ -94,15 +94,29 @@ QString TDiagram::ExportToDot(const QString& graphName) const {
     
     out << "graph " << graphName << " {\n";
     for (QSet<TVertex*>::ConstIterator i = Correlations.begin(); i != Correlations.end(); i++)
-        out << "    " << *i << " [shape=none label=""];\n";
+        out << "    " << *i << " [shape=none label=\"\"];\n";
     
     for (QSet<TVertex*>::ConstIterator i = Interactions.begin(); i != Interactions.end(); i++)
-        out << "    " << *i << " [shape=point label=""];\n";
+        out << "    " << *i << " [shape=point label=\"\"];\n";
     out << "\n";
     
     for (QSet<TEdge*>::ConstIterator i = Edges.begin(); i != Edges.end(); i++)
     {
-        out << "    " << (*i)->A << " -- " << (*i)->B << ";\n";
+        out << "    " << (*i)->A << " -- " << (*i)->B;
+        switch ((*i)->Particle->GetLineShape())
+        {
+            case LS_DASHED:
+                out << " [style=dashed]";
+                break;
+                
+            case LS_DOTTED:
+                out << " [style=dotted]";
+                break;
+                
+            default:
+                break;
+        }
+        out << ";\n";
     }
     out << "}\n";
     
