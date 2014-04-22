@@ -9,7 +9,7 @@ class TWickTask
     public:
         QVector<TWickSlot> Slots;
         QString ToString() const;
-        void Solve();
+        void Solve(QVector<TDiagram*> *output, bool checkConsistency = true);
         void ToDiagram(TDiagram* d);
    
     private:
