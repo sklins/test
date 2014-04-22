@@ -2,8 +2,11 @@
 #include "wick_example.h"
 #include <wick/wick_slot.h>
 #include <wick/wick_task.h>
+#include <feyn/diagram.h>
 
 void GenerateContractionsForSampleTask() {
+    MESSAGE("Generating an instance of TWickTask...");
+
     uint32_t const scalarBoson = 0;
 
     TWickSlot inputBoson1(1, 1, 1);
@@ -31,6 +34,20 @@ void GenerateContractionsForSampleTask() {
 
     // And this
     // task.Slots << F4Vertex2;
+    
+    MESSAGE("Solving...");
 
-    //task.Solve();
+    QVector<TDiagram*> res;
+    task.Solve(&res, false);
+
+    MESSAGE("Solved (" << res.size() << " diagrams). Writing DOT to files");
+
+    for (int i = 0; i < res.size(); i++) {
+        QFile file("junk/d" + QString::number(i + 1) + ".dot");
+        file.open(QIODevice::WriteOnly);
+        
+        QTextStream stream(&file);
+        stream << res[i]->ExportToDot("Diagram #" + QString::number(i + 1));
+        stream.flush();
+    }
 }
