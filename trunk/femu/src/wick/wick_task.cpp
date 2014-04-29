@@ -47,7 +47,7 @@ void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency)
         return;
     }
     
-    uint32_t p = Slots[i].GetPendingParticleType();
+    TParticle* p = Slots[i].GetPendingParticleType();
     
     for (int j = i; j < Slots.size(); j++)
     {
@@ -80,6 +80,6 @@ void TWickTask::ToDiagram(TDiagram* d)
     
     for (int i = 0; i < this->CurrentEdges.size(); i++)
     {
-        d->AddEdge(slotVertex[this->CurrentEdges[i].Source], slotVertex[this->CurrentEdges[i].Target], this->ParticleBase[i]);
+        d->AddEdge(slotVertex[this->CurrentEdges[i].Source], slotVertex[this->CurrentEdges[i].Target], this->CurrentEdges[i].ParticleType);
     }
 }
