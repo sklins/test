@@ -4,5 +4,5 @@
 
 class ITask {
 public:
-    /*abstract*/ void Solve(QVector<TDiagram*> *output) = 0;
+    /*abstract*/ virtual void Solve(QVector<TDiagram*> *output) = 0;
 };
