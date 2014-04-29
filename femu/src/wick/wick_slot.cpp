@@ -1,10 +1,8 @@
 #include "wick_slot.h"
 
-TWickSlot::TWickSlot(uint32_t particleTypeCount, uint32_t equivalenceClass, uint32_t inconsistencyMask, bool allowSimpleLoops, bool correlation)
+TWickSlot::TWickSlot(uint32_t equivalenceClass, uint32_t inconsistencyMask, bool allowSimpleLoops, bool correlation)
     : EquivalenceClass(equivalenceClass), InconsistencyMask(inconsistencyMask), AllowSimpleLoops(allowSimpleLoops), Correlation(correlation)
 {
-    InitialFreedomDegrees.resize(particleTypeCount);
-    CurrentFreedomDegrees.resize(particleTypeCount);
 }
 
 
@@ -18,9 +16,9 @@ bool TWickSlot::EquivalentSlots(const TWickSlot &a, const TWickSlot &b)
     return a.EquivalenceClass == b.EquivalenceClass && a.CurrentFreedomDegrees == b.CurrentFreedomDegrees;
 }
 
-bool TWickSlot::AllowContraction(const TWickSlot &a, const TWickSlot &b, uint32_t particleType)
+bool TWickSlot::AllowContraction(const TWickSlot &a, const TWickSlot &b, TParticle* particleType)
 {
-    ASSERT(particleType < (uint32_t)a.CurrentFreedomDegrees.size() && particleType < (uint32_t)b.CurrentFreedomDegrees.size());
+    ASSERT(a.CurrentFreedomDegrees.contains(particleType) && b.CurrentFreedomDegrees.contains(particleType));
     if (&a == &b)
     {
         return a.CurrentFreedomDegrees[particleType] > 1 && a.AllowSimpleLoops;
@@ -31,7 +29,7 @@ bool TWickSlot::AllowContraction(const TWickSlot &a, const TWickSlot &b, uint32_
     }
 }
 
-void TWickSlot::Contract(TWickSlot &a, TWickSlot &b, uint32_t particleType)
+void TWickSlot::Contract(TWickSlot &a, TWickSlot &b, TParticle* particleType)
 {
     if (&a == &b)
     {
@@ -46,7 +44,7 @@ void TWickSlot::Contract(TWickSlot &a, TWickSlot &b, uint32_t particleType)
     }
 }
 
-void TWickSlot::BreakContraction(TWickSlot &a, TWickSlot &b, uint32_t particleType)
+void TWickSlot::BreakContraction(TWickSlot &a, TWickSlot &b, TParticle* particleType)
 {
     if (&a == &b)
     {
@@ -62,25 +60,24 @@ void TWickSlot::BreakContraction(TWickSlot &a, TWickSlot &b, uint32_t particleTy
     }
 }
 
-void TWickSlot::InitializeFreedomDegree(uint32_t particleType, uint32_t count)
+void TWickSlot::InitializeFreedomDegree(TParticle*  particleType, uint32_t count)
 {
-    ASSERT((uint32_t)CurrentFreedomDegrees.size() > particleType && InitialFreedomDegrees[particleType] == 0 && CurrentFreedomDegrees[particleType] == 0);
-    CurrentFreedomDegrees[particleType] = count;
-    InitialFreedomDegrees[particleType] = count;
+    ASSERT(!InitialFreedomDegrees.contains(particleType) && !CurrentFreedomDegrees.contains(particleType));
+    CurrentFreedomDegrees.insert(particleType, count);
+    InitialFreedomDegrees.insert(particleType, count);
 }
 
 bool TWickSlot::IsFinalized()  const
 {
-    for (int i = 0; i < CurrentFreedomDegrees.size(); i++)
-        if (CurrentFreedomDegrees[i] > 0) return false;
+    for (QHash<TParticle*, uint32_t>::ConstIterator i = CurrentFreedomDegrees.begin(); i != CurrentFreedomDegrees.end(); ++i)
+        if (i.value() > 0) return false;
     return true;    
 }
 
-uint32_t TWickSlot::GetPendingParticleType() const
+TParticle* TWickSlot::GetPendingParticleType() const
 {
     ASSERT(!IsFinalized());
-    for (int i = 0; i < CurrentFreedomDegrees.size(); i++)
-        if (CurrentFreedomDegrees[i] > 0) return (uint32_t)i;
-    return (uint32_t)CurrentFreedomDegrees.size();
+    for (QHash<TParticle*, uint32_t>::ConstIterator i = CurrentFreedomDegrees.begin(); i != CurrentFreedomDegrees.end(); ++i)
+        if (i.value() > 0) return i.key();
+    return NULL;
 }
-

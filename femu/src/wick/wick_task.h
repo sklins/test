@@ -14,5 +14,5 @@ class TWickTask
    
     private:
         QVector<TWickEdge> CurrentEdges;
-        QVector<TParticle*> ParticleBase;
+        //QVector<TParticle*> ParticleBase;
 };
