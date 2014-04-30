@@ -91,18 +91,26 @@ bool TDiagram::CheckConsistency() const {
 QString TDiagram::ExportToDot(const QString& graphName) const {
     QString result;
     QTextStream out(&result);
+    QHash<TVertex*, uint32_t> vertexNames;
+    uint32_t num = 0;
     
     out << "graph " << graphName << " {\n";
     for (QSet<TVertex*>::ConstIterator i = Correlations.begin(); i != Correlations.end(); i++)
-        out << "    " << *i << " [shape=none label=\"\"];\n";
+    {
+        vertexNames[*i] = num++;
+        out << "    v" << vertexNames[*i] << " [shape=none label=\"\"];\n";
+    }
     
     for (QSet<TVertex*>::ConstIterator i = Interactions.begin(); i != Interactions.end(); i++)
-        out << "    " << *i << " [shape=point label=\"\"];\n";
+    {
+        vertexNames[*i] = num++;
+        out << "    v" << vertexNames[*i] << " [shape=point label=\"\"];\n";
+    }
     out << "\n";
     
     for (QSet<TEdge*>::ConstIterator i = Edges.begin(); i != Edges.end(); i++)
     {
-        out << "    " << (*i)->A << " -- " << (*i)->B;
+        out << "    v" << vertexNames[(*i)->A] << " -- v" <<  vertexNames[(*i)->B];
         switch ((*i)->Particle->GetLineShape())
         {
             case LS_DASHED:
