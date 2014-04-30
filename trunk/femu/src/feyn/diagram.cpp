@@ -55,8 +55,7 @@ void TDiagram::RemoveVertex(TVertex* x)
     delete x;
 }
 
-bool TDiagram::CheckConsistency() const
-{
+bool TDiagram::CheckConsistency() const {
     QSet<TVertex*> visited;
     QStack <TVertex*> s;
     TVertex* a;
@@ -74,7 +73,7 @@ bool TDiagram::CheckConsistency() const
         s.pop();
         for (QSet<TEdge*>::ConstIterator i = a->IncidentEdges.begin(); i != a->IncidentEdges.end(); i++)
         {
-            ASSERT (((*i)->A == a) || ((*i)->B == a));
+            ASSERT (((*i)->A == a) ^ ((*i)->B == a) || ((*i)->A == a) && ((*i)->B == a));
             TVertex* b = ((*i)->A != a) ? (*i)->A : (*i)->B;
             if (!visited.contains(b))
             {
@@ -89,8 +88,7 @@ bool TDiagram::CheckConsistency() const
     return true;
 }
 
-QString TDiagram::ExportToDot(const QString& graphName) const
-{
+QString TDiagram::ExportToDot(const QString& graphName) const {
     QString result;
     QTextStream out(&result);
     QHash<TVertex*, uint32_t> vertexNames;
@@ -133,14 +131,3 @@ QString TDiagram::ExportToDot(const QString& graphName) const
     out.flush();
     return result;
 }
-
-void TDiagram::GenerateImage(const QString& fileName) const
-{
-    QProcess graphviz;
-    graphviz.start("neato", QStringList() « "-Tsvg");
-    graphviz.waitForStarted();
-    graphviz.write(ExportToDot());
-    graphviz.waitForFinished();
-    QByteArray result = graphviz.readAll();
-}
-
