@@ -44,10 +44,14 @@ void GenerateContractionsForSampleTask() {
 
     for (int i = 0; i < res.size(); i++) {
         QFile file("junk/d" + QString::number(i + 1) + ".dot");
-        file.open(QIODevice::WriteOnly);
+        if (!file.open(QIODevice::WriteOnly)) {
+            MESSAGE("Bad environment!");
+            return;
+        }
         
         QTextStream stream(&file);
         stream << res[i]->ExportToDot("Diagram_" + QString::number(i + 1));
         stream.flush();
     }
+    MESSAGE("Done");
 }
