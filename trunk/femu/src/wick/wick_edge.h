@@ -5,17 +5,17 @@
 struct TWickEdge
 {
     public:
-        inline TWickEdge(const TWickSlot* source, const TWickSlot* target, TParticle* particleType)
+        inline TWickEdge(int source, int target, TParticle* particleType)
             : Source(source), Target(target), ParticleType(particleType)
         { }
     
         inline TWickEdge()
-            : Source(NULL), Target(NULL), ParticleType(NULL)
+            : Source(0), Target(0), ParticleType(NULL)
         { }
 
     
     public:
-        const TWickSlot* Source;
-        const TWickSlot* Target;
+        int Source; // Index in TWickTask::Slots array
+        int Target; // Index in TWickTask::Slots array
         TParticle* ParticleType;
 };
