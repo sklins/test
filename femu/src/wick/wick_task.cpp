@@ -4,32 +4,26 @@
 
 QString TWickTask::ToString() const
 {
-    QHash<const TWickSlot*, int> slotIndex;
-    
-    for (int i = 0; i < Slots.size(); i++)
-    {
-        slotIndex[&Slots[i]] = i;
-    }
-    
     QString result;
     QTextStream out(&result);
     
     out << "Wick task\nTotal slots: " << CurrentEdges.size() << "\n";
     for (int i = 0; i < CurrentEdges.size(); i++)
     {
-        ASSERT(slotIndex.contains(CurrentEdges[i].Source) && slotIndex.contains(CurrentEdges[i].Target));
-        out << "    [" << slotIndex[CurrentEdges[i].Source] << "] - p" << CurrentEdges[i].ParticleType << "- [" <<  slotIndex[CurrentEdges[i].Target] << "]\n";
+        out << "    [" << CurrentEdges[i].Source << "] - p" << CurrentEdges[i].ParticleType << "- [" <<  CurrentEdges[i].Target << "]\n";
     }
     out << "End of wick task\n";
     out.flush();
     return result;
 }
 
-void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency)
+#define MSG(x) QTextStream(stderr) << x << "\n"
+
+void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency, int i0, int j0)
 {
     int i = -1;
     
-    for (int k = 0; k < Slots.size(); k++)
+    for (int k = i0; k < Slots.size(); k++)
     {
         if (Slots[k].IsFinalized())
             continue;
@@ -43,13 +37,14 @@ void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency)
         ToDiagram(d);
         if (!checkConsistency || d->CheckConsistency()) output->append(d);
         else delete d;
-        
         return;
     }
     
     TParticle* p = Slots[i].GetPendingParticleType();
+
+    int j_start = (i == i0) ? j0 : i;
     
-    for (int j = i; j < Slots.size(); j++)
+    for (int j = j_start; j < Slots.size(); j++)
     {
         if (!TWickSlot::AllowContraction(Slots[i], Slots[j], p))
             continue;
@@ -67,8 +62,8 @@ void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency)
         if (bad) continue;
         
         TWickSlot::Contract(Slots[i], Slots[j], p);
-        CurrentEdges.append(TWickEdge(&Slots[i], &Slots[j], p));
-        Solve(output, checkConsistency);
+        CurrentEdges.append(TWickEdge(i, j, p));
+        Solve(output, checkConsistency, i, j);
         TWickSlot::BreakContraction(Slots[i], Slots[j], p);
         CurrentEdges.pop_back();
     }
@@ -76,12 +71,12 @@ void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency)
 
 void TWickTask::ToDiagram(TDiagram* d)
 {
-    QHash<const TWickSlot*, TVertex*> slotVertex;
+    QVector<TVertex*> slotVertex(Slots.size());
     
     for (int i = 0; i < this->Slots.size(); i++)
     {
-        if (this->Slots[i].Correlation) slotVertex[&Slots[i]] = d->AddCorrelationVertex();
-        else slotVertex[&Slots[i]] = d->AddInteractionVertex();
+        if (this->Slots[i].Correlation) slotVertex[i] = d->AddCorrelationVertex();
+        else slotVertex[i] = d->AddInteractionVertex();
     }
     
     for (int i = 0; i < this->CurrentEdges.size(); i++)
