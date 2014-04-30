@@ -4,41 +4,36 @@
 #include <wick/wick_task.h>
 #include <feyn/diagram.h>
 
+const int N = 2; // Max interaction vertexes
+
 void GenerateContractionsForSampleTask() {
     MESSAGE("Generating an instance of TWickTask...");
 
-    TParticle scalarBoson("scalar boson", LS_DASHED);
+    TParticle scalarBoson("scalar boson", LS_NORMAL);
 
-    TWickSlot inputBoson1(1, 1, false, true);
-    inputBoson1.InitializeFreedomDegree(&scalarBoson, 1);
+    TWickSlot inputBoson(1, 0, false, true);
+    inputBoson.InitializeFreedomDegree(&scalarBoson, 1);
 
-    TWickSlot inputBoson2(1, 1, false, true);
-    inputBoson2.InitializeFreedomDegree(&scalarBoson, 1);
-
-    TWickSlot ouputBoson1(2, 2, false, true);
-    ouputBoson1.InitializeFreedomDegree(&scalarBoson, 1);
-    
-    TWickSlot ouputBoson2(2, 2, false, true);
-    ouputBoson2.InitializeFreedomDegree(&scalarBoson, 1);
-
-    TWickSlot F4Vertex1(3, 0, true, false);
-    F4Vertex1.InitializeFreedomDegree(&scalarBoson, 4);
-    
-    // Uncomment this if you want another interaction vertex
-    // TWickSlot F4Vertex2(1, 4, 0, true, false);
-    // F4Vertex2.InitializeFreedomDegree(&scalarBoson, 4);
-
-    TWickTask task;
-    task.Slots << inputBoson1 << inputBoson2 << ouputBoson1 << ouputBoson2;
-    task.Slots << F4Vertex1;
-
-    // And this
-    // task.Slots << F4Vertex2;
-    
-    MESSAGE("Solving...");
+    TWickSlot ouputBoson(1, 0, false, true);
+    ouputBoson.InitializeFreedomDegree(&scalarBoson, 1);
+   
+    QVector<TWickSlot> F4Vertexes;
+    for (int i = 0; i < N; i++) {
+        F4Vertexes << TWickSlot(2, 0, true, false);
+        F4Vertexes.back().InitializeFreedomDegree(&scalarBoson, 4);
+    }
 
     QVector<TDiagram*> res;
-    task.Solve(&res, false);
+
+    TWickTask task;
+    task.Slots << inputBoson << ouputBoson;
+    for (int i = 0; i < N; i++) {
+        task.Slots << F4Vertexes[i];
+        int ln = res.size();
+        MESSAGE("Solving for " << (i + 1) << " interactions..");
+        task.Solve(&res, true);
+        MESSAGE("Got " << res.size() - ln << " diagrams");
+    }
 
     MESSAGE("Solved (" << res.size() << " diagrams). Writing DOT to files");
 
