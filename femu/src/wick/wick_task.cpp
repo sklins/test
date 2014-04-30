@@ -53,12 +53,18 @@ void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency)
     {
         if (!TWickSlot::AllowContraction(Slots[i], Slots[j], p))
             continue;
+
+        bool bad = false;
         
-        for (int k = i + 1; k < j; k++)
+        for (int k = 0; k < j; k++)
         {
-            if (TWickSlot::EquivalentSlots(Slots[k], Slots[j]))
-                continue;
+            if (k != i && TWickSlot::EquivalentSlots(Slots[k], Slots[j])) {
+                bad = true;
+                break;
+            }
         }
+
+        if (bad) continue;
         
         TWickSlot::Contract(Slots[i], Slots[j], p);
         CurrentEdges.append(TWickEdge(&Slots[i], &Slots[j], p));
