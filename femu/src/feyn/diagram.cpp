@@ -73,7 +73,7 @@ bool TDiagram::CheckConsistency() const {
         s.pop();
         for (QSet<TEdge*>::ConstIterator i = a->IncidentEdges.begin(); i != a->IncidentEdges.end(); i++)
         {
-            ASSERT (((*i)->A == a) ^ ((*i)->B == a) || ((*i)->A == a) && ((*i)->B == a));
+            ASSERT (((*i)->A == a) || ((*i)->B == a));
             TVertex* b = ((*i)->A != a) ? (*i)->A : (*i)->B;
             if (!visited.contains(b))
             {
@@ -130,4 +130,17 @@ QString TDiagram::ExportToDot(const QString& graphName) const {
     
     out.flush();
     return result;
+}
+
+void TDiagram::GenerateImage(const QString& fileName) const
+{
+    QProcess graphviz;
+    graphviz.start("neato", QStringList() << "-Tsvg");
+    graphviz.waitForStarted();
+    graphviz.write((ExportToDot(fileName)).toUtf8());
+    graphviz.waitForFinished();
+    QByteArray result = graphviz.readAll();
+    QFile output(fileName);
+    output.open(QIODevice::WriteOnly);
+    output.write(result);
 }
