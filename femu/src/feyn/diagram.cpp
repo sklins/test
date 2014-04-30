@@ -73,7 +73,7 @@ bool TDiagram::CheckConsistency() const {
         s.pop();
         for (QSet<TEdge*>::ConstIterator i = a->IncidentEdges.begin(); i != a->IncidentEdges.end(); i++)
         {
-            ASSERT (((*i)->A == a) ^ ((*i)->B == a));
+            ASSERT (((*i)->A == a) ^ ((*i)->B == a) || ((*i)->A == a) && ((*i)->B == a));
             TVertex* b = ((*i)->A != a) ? (*i)->A : (*i)->B;
             if (!visited.contains(b))
             {
