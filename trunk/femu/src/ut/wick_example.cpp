@@ -16,7 +16,7 @@ void GenerateContractionsForSampleTask() {
 
     TWickSlot ouputBoson(1, 0, false, true);
     ouputBoson.InitializeFreedomDegree(&scalarBoson, 1);
-   
+
     QVector<TWickSlot> F4Vertexes;
     for (int i = 0; i < N; i++) {
         F4Vertexes << TWickSlot(2, 0, true, false);
@@ -35,18 +35,17 @@ void GenerateContractionsForSampleTask() {
         MESSAGE("Got " << res.size() - ln << " diagrams");
     }
 
-    MESSAGE("Solved (" << res.size() << " diagrams). Writing DOT to files");
+    MESSAGE("Solved (" << res.size() << " diagrams). Calling graphviz...");
 
     for (int i = 0; i < res.size(); i++) {
-        QFile file("junk/d" + QString::number(i + 1) + ".dot");
+        QFile file("junk/d" + QString::number(i + 1) + ".svg");
         if (!file.open(QIODevice::WriteOnly)) {
             MESSAGE("Bad environment!");
             return;
         }
-        
-        QTextStream stream(&file);
-        stream << res[i]->ExportToDot("Diagram_" + QString::number(i + 1));
-        stream.flush();
+        file.close();
+
+        res[i]->GenerateImage("Diagram_" + QString::number(i + 1), file.fileName());
     }
     MESSAGE("Done");
 }
