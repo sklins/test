@@ -23,6 +23,8 @@ class TDiagram
         // Exports the diagram in the graphviz (dot) format
         QString ExportToDot(const QString&) const;
         void GenerateImage(const QString& diagramName, const QString& fileName) const;
+        uint32_t NumOfConnectedComponents() const;
+        uint32_t NumOfCycles() const;
     
     private:
         QSet<TEdge*> Edges;
