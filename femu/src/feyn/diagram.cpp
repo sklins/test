@@ -132,15 +132,22 @@ QString TDiagram::ExportToDot(const QString& graphName) const {
     return result;
 }
 
-void TDiagram::GenerateImage(const QString& fileName) const
+void TDiagram::GenerateImage(const QString& diagramName, const QString& fileName) const
 {
     QProcess graphviz;
     graphviz.start("neato", QStringList() << "-Tsvg");
     graphviz.waitForStarted();
-    graphviz.write((ExportToDot(fileName)).toUtf8());
+    QTextStream graphvizInput(&graphviz);
+    graphvizInput << ExportToDot(diagramName);
+    graphvizInput.flush();
+    graphviz.closeWriteChannel();
+
     graphviz.waitForFinished();
+
     QByteArray result = graphviz.readAll();
+
     QFile output(fileName);
     output.open(QIODevice::WriteOnly);
     output.write(result);
+    output.close();
 }

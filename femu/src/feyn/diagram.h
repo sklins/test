@@ -22,7 +22,7 @@ class TDiagram
 
         // Exports the diagram in the graphviz (dot) format
         QString ExportToDot(const QString&) const;
-        void GenerateImage(const QString& fileName) const;
+        void GenerateImage(const QString& diagramName, const QString& fileName) const;
     
     private:
         QSet<TEdge*> Edges;
