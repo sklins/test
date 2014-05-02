@@ -1,14 +1,17 @@
 #pragma once
 #include <util/global.h>
+#include "particle.h"
+#include "interaction.h"
 
 class TFeynRules
 {
 public:
     ~TFeynRules()
     {
-        //ЧТО ЕМУ НЕ НРАВИТСЯ НЕ ПОЙМУ
-        qDeleteAll(Particles);
-        qDeleteAll(Interactions);
+        for (QSet<TParticle*>::Iterator i = Particles.begin(); i != Particles.end(); i++)
+            delete *i;
+        for (QSet<TInteraction*>::Iterator i = Interactions.begin(); i != Interactions.end(); i++)
+            delete *i;
     }
     
 public:

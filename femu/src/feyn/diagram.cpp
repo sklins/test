@@ -152,13 +152,12 @@ void TDiagram::GenerateImage(const QString& diagramName, const QString& fileName
     output.close();
 }
 
-uint32_t TDiagram::NumOfConnectedComponents() const
+uint32_t TDiagram::CountConnectedComponents() const
 {
     QSet<TVertex*> visited;
     QStack <TVertex*> s;
     TVertex* a;
     uint32_t kol = 0;
-    //ТОЛЬКО КОРРЕЛЯЦИИ ВЕДЬ ПЕРЕБИРАТЬ? НЕ МОЖЕТ ЖЕ БЫТЬ КОМПОНЕНТЫ СВЯЗНОСТИ БЕЗ НИХ?
     for (QSet<TVertex*>::ConstIterator cor = Correlations.begin(); cor != Correlations.end(); cor++)
     {
         ASSERT((*cor)->IncidentEdges.size() == 1);
@@ -187,7 +186,7 @@ uint32_t TDiagram::NumOfConnectedComponents() const
     return kol;
 }
 
-uint32_t TDiagram::NumOfCycles() const
+uint32_t TDiagram::CountLoops() const
 {
     return (this->Edges.size() - this->Interactions.size() - this->Correlations.size() + 1);
 }
