@@ -4,7 +4,7 @@
 #include <wick/wick_task.h>
 #include <feyn/diagram.h>
 
-const int N = 3; // Max interaction vertexes
+const int N = 6; // Max interaction vertexes
 
 void GenerateContractionsForSampleTask() {
     MESSAGE("Generating an instance of TWickTask...");
@@ -46,6 +46,9 @@ void GenerateContractionsForSampleTask() {
         file.close();
 
         res[i]->GenerateImage("Diagram_" + QString::number(i + 1), file.fileName());
+        MESSAGE("Diagram_" << QString::number(i + 1) << ": " <<
+                res[i]->CountConnectedComponents() << " connected components; " <<
+                res[i]->CountLoops() << " loops");
     }
     MESSAGE("Done");
 }
