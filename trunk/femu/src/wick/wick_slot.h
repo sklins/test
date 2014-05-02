@@ -19,8 +19,6 @@ class TWickSlot
         TParticle* GetPendingParticleType() const;
     
     private:
-        //QVector<uint32_t> InitialFreedomDegrees;
-        //QVector<uint32_t> CurrentFreedomDegrees;
         QHash<TParticle*, uint32_t> InitialFreedomDegrees;
         QHash<TParticle*, uint32_t> CurrentFreedomDegrees;
 

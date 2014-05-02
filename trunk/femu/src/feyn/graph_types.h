@@ -2,3 +2,8 @@
 class TVertex;
 class TEdge;
 class TParticle;
+class TFeynRules;
+class TInteraction;
+class TLimitations;
+class ITask;
+class TCorrelation;
