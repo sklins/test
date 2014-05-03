@@ -4,7 +4,7 @@
 class TLimitations
 {
 public:
-    TLimitations(uint32_t loopsLimit, uint32_t connectedComponentsLimit, uint32_t totalInteractionLimit) : LoopsLimit(loopsLimit), ConnectedComponentsLimit(connectedComponentsLimit), TotalInteractionLimit(totalInteractionLimit);
+    TLimitations(uint32_t loopsLimit, uint32_t connectedComponentsLimit, uint32_t totalInteractionLimit) : LoopsLimit(loopsLimit), ConnectedComponentsLimit(connectedComponentsLimit), TotalInteractionLimit(totalInteractionLimit) {};
 public:
     uint32_t LoopsLimit;
     uint32_t ConnectedComponentsLimit;
