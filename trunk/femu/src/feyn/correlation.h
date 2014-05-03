@@ -11,5 +11,6 @@ public:
 public:
     TFeynRules* FeynRules;
     TLimitations* Limitations;
+    bool IncludeKinematics;
     virtual void Solve(QVector<TDiagram*> *output);
 };

@@ -97,6 +97,9 @@ QString TDiagram::ExportToDot(const QString& graphName) const {
     double nodesep = 0.3;
     
     out << "graph " << graphName << " {\n    mode=ipsep\n    diredgeconstraints=true\n    levelsgap=" << levelsgap << "\n    nodesep=" << nodesep << "\n    overlap=ipsep\n\n";
+    
+    //А ПОЧЕМУ ОБЪЯВЛЕН ХЭШ А В ЦИКЛЕ СЕТ?????????????????????????????????????????????????
+    
     for (QSet<TVertex*>::ConstIterator i = Correlations.begin(); i != Correlations.end(); i++)
     {
         vertexNames[*i] = num++;
