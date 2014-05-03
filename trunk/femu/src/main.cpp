@@ -1,7 +1,7 @@
 #include <QtCore>
 #include <util/exception.h>
 #include <ut/tests.h>
-#include <ut/wick_example.h>
+#include <ut/integration/wick_example.h>
 
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
