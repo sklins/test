@@ -2,9 +2,14 @@
 #include <util/global.h>
 #include <wick/wick_slot.h>
 
-class TInteraction
-{   
-public:
-    void ExportToSlot(TWickSlot* res, bool AllowSimpleLoops);
-    QHash<TParticle*, uint32_t> Participants;
+struct TInteraction
+{
+    TInteraction(const QString& name, bool allowSimpleLoops = false):
+        Name(name), AllowSimpleLoops(allowSimpleLoops) {}
+
+    QString Name;
+    bool AllowSimpleLoops;
+
+    // Fill it up
+    QVector<TParticle*> Participants;
 };

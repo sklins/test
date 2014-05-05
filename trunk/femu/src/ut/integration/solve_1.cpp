@@ -1,6 +1,9 @@
+#include <util/global.h>
 #include <ut/tests.h>
-#include <limits.h>
-#include "solve_1.h"
+#include <feyn/particle.h>
+#include <feyn/interaction.h>
+#include <feyn/diagram.h>
+#include <feyn/generator.h>
 
 const uint32_t N = 3;
 
@@ -9,7 +12,8 @@ void IntegrationTest_Solve1() {
     TParticle scalarBoson("scalar boson", LS_NORMAL);
 
     MESSAGE("Initializing the f4 interaction vertex..");
-    TInteraction f4Int; f4Int.Participants.insert(&scalarBoson, 4);
+    TInteraction f4Int("f4 interaction vertex", true);
+    f4Int.Participants << &scalarBoson << &scalarBoson << &scalarBoson << &scalarBoson;
     
     MESSAGE("Initializing Feynman rules for the f4 theory..");
     TFeynRules f4Theory;
@@ -17,21 +21,29 @@ void IntegrationTest_Solve1() {
     f4Theory.Interactions << &f4Int;
 
     MESSAGE("Initializing limitations for the diagrams..");
-    TLimitations limitations(UINT_MAX, 0, UINT_MAX);
-    limitations.InteractionLimits.insert(&f4Int, N); // limiting up to N f4 vertexes
+    TLimitations limitations;
+    limitations.LoopsLimit = TOptional<uint32_t>(); // not limited
+    limitations.ConnectedComponentsLimit = TOptional<uint32_t>(); // not limited
+    limitations.TotalInteractionsLimit = TOptional<uint32_t>(); // not limited
+    limitations.InteractionLimits[&f4Int] = 3;
 
-    MESSAGE("Initializing the correlation task..");
-    TCorrelation corr(&f4Theory, &limitations, true);
-    corr.IncludeKinematics = false;
-    corr.ExternalParticles << &scalarBoson << &scalarBoson;
+    MESSAGE("Initializing the generator..");
+    TGenerator generator(&f4Theory, &limitations, false /* only dynamics */);
+    generator.ExternalParticles << &scalarBoson << &scalarBoson;
 
     MESSAGE("Initializing the output container..");
     QVector<TDiagram*> res;
     
-    MESSAGE("Solving..");
-    corr.Solve(&res);
+    MESSAGE("Generating..");
+    generator.Generate(&res);
 
-    MESSAGE("Solved (" << res.size() << " diagrams). Calling graphviz...");
+    MESSAGE("Generated (" << res.size() << " diagrams). Calling graphviz...");
+
+    QDir junk("junk/");
+    QStringList svgs = junk.entryList(QStringList() << "*.svg");
+
+    for (QStringList::Iterator i = svgs.begin(); i != svgs.end(); i++)
+        QFile::remove(junk.absoluteFilePath(*i));
 
     for (int i = 0; i < res.size(); i++) {
         QFile file("junk/d" + QString::number(i + 1) + ".svg");
