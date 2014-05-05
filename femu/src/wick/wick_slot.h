@@ -6,6 +6,9 @@ class TWickSlot
 {
     public:
         friend class TWickTask;
+        friend class TInteraction;
+        friend class TCorrelation;
+        //friend void TCorrelation::Solve(QVector<TDiagram*> *output);
         TWickSlot(uint32_t equivalenceClass, uint32_t inconsistencyMask, bool allowSimpleLoops = false, bool correlation = false);
         TWickSlot();
     

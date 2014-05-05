@@ -1,26 +1,51 @@
 #include <ut/tests.h>
+#include <limits.h>
 #include "solve_1.h"
 
+const uint32_t N = 7;
+
 void IntegrationTest_Solve1() {
-    // Scalar boson particle
+    MESSAGE("Initializing the scalar boson particle..");
     TParticle scalarBoson("scalar boson", LS_NORMAL);
 
-    // F4 interaction vertex
+    MESSAGE("Initializing the f4 interaction vertex..");
     TInteraction f4Int; f4Int.Participants.insert(&scalarBoson, 4);
     
-    // Feynman rules for F4 theory
+    MESSAGE("Initializing Feynman rules for the f4 theory..");
     TFeynRules f4Theory;
     f4Theory.Particles << &scalarBoson;
     f4Theory.Interactions << &f4Int;
 
-    // Limitations
-    TLimitations limitations(0, 1, 0); // connected diagrams without loop limitations
-    // Or 0 means tree-level limitations?
-    limitations.InteractionLimits.insert(&f4Int, 2); // limiting up to two f4 vertexes
+    MESSAGE("Initializing limitations for the diagrams..");
+    TLimitations limitations(UINT_MAX, 0, UINT_MAX);
+    limitations.InteractionLimits.insert(&f4Int, N); // limiting up to N f4 vertexes
 
-    TCorrelation corr(&f4Theory, &limitations);
+    MESSAGE("Initializing the correlation task..");
+    TCorrelation corr(&f4Theory, &limitations, true);
+    corr.IncludeKinematics = false;
+    corr.ExternalParticles << &scalarBoson << &scalarBoson;
 
+    MESSAGE("Initializing the output container..");
     QVector<TDiagram*> res;
     
-    corr.Solve(&res); // Where are my external particles?
+    MESSAGE("Solving..");
+    corr.Solve(&res);
+
+    MESSAGE("Solved (" << res.size() << " diagrams). Calling graphviz...");
+
+    for (int i = 0; i < res.size(); i++) {
+        QFile file("junk/d" + QString::number(i + 1) + ".svg");
+        if (!file.open(QIODevice::WriteOnly)) {
+            MESSAGE("Bad environment!");
+            return;
+        }
+        file.close();
+
+        res[i]->GenerateImage("Diagram_" + QString::number(i + 1), file.fileName());
+        MESSAGE("Diagram_" << QString::number(i + 1) << ": " <<
+                res[i]->CountConnectedComponents() << " connected components; " <<
+                res[i]->CountLoops() << " loops");
+    }
+
+    MESSAGE("Done");
 }
