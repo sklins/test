@@ -4,7 +4,7 @@
 #include <wick/wick_task.h>
 #include <feyn/diagram.h>
 
-const int N = 6; // Max interaction vertexes
+const int N = 3; // Max interaction vertexes
 
 void GenerateContractionsForSampleTask() {
     MESSAGE("Generating an instance of TWickTask...");

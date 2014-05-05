@@ -92,7 +92,24 @@ void TGenerator::Apply() {
 
     log << "solving..\n";
 
-    wickTask.Solve(Output, ExternalParticles.size() > 0); // We generate either bubbles or diagrams without bubbles
+    QVector<TDiagram*> pre;
+    wickTask.Solve(&pre, ExternalParticles.size() > 0); // We generate either bubbles or diagrams without bubbles
+
+    for (QVector<TDiagram*>::Iterator i = pre.begin(); i != pre.end(); i++) {
+        if (Limitations->ConnectedComponentsLimit.HasValue()) {
+            uint32_t components = (*i)->CountConnectedComponents();
+            if (components > Limitations->ConnectedComponentsLimit.Get())
+                continue;
+        }
+
+        if (Limitations->LoopsLimit.HasValue()) {
+            uint32_t loops = (*i)->CountLoops();
+            if (loops > Limitations->LoopsLimit.Get())
+                continue;
+        }
+
+        Output->push_back(*i);
+    }
 }
 
 void TGenerator::Generate(QVector<TDiagram *> *output) {
