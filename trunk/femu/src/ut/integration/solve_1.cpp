@@ -2,7 +2,7 @@
 #include <limits.h>
 #include "solve_1.h"
 
-const uint32_t N = 7;
+const uint32_t N = 3;
 
 void IntegrationTest_Solve1() {
     MESSAGE("Initializing the scalar boson particle..");
