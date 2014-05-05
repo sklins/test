@@ -5,6 +5,6 @@
 class TInteraction
 {   
 public:
-    void ExportToSlot(TWickSlot* res);
+    void ExportToSlot(TWickSlot* res, bool AllowSimpleLoops);
     QHash<TParticle*, uint32_t> Participants;
 };
