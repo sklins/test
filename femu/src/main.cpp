@@ -3,6 +3,7 @@
 #include <ut/tests.h>
 #include <ut/integration/wick_example.h>
 #include <ut/integration/solve_1.h>
+#include <ut/integration/solve_2.h>
 
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
@@ -19,6 +20,8 @@ int main(int argc, char *argv[]) {
         GenerateContractionsForSampleTask();
     } else if (args[1] == "solve-1") {
         IntegrationTest_Solve1();
+    } else if (args[1] == "solve-2") {
+        IntegrationTest_Solve2();
     } else {
         if (args[1] != "help") {
             MESSAGE("Unknown action: " << args[1]);

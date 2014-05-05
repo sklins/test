@@ -1,4 +1,4 @@
-#include "solve_1.h"
+#include "solve_2.h"
 #include <util/global.h>
 #include <ut/tests.h>
 #include <feyn/particle.h>
@@ -6,31 +6,32 @@
 #include <feyn/diagram.h>
 #include <feyn/generator.h>
 
-const uint32_t N = 3;
+const uint32_t N = 5;
 
-void IntegrationTest_Solve1() {
-    MESSAGE("Initializing the scalar boson particle..");
-    TParticle scalarBoson("scalar boson", LS_NORMAL);
+void IntegrationTest_Solve2() {
+    MESSAGE("Initializing electron and photon..");
+    TParticle electron("electron", LS_NORMAL);
+    TParticle photon("photon", LS_DOTTED); // Should be LS_WAVE
 
-    MESSAGE("Initializing the f4 interaction vertex..");
-    TInteraction f4Int("f4 interaction vertex", true);
-    f4Int.Participants << &scalarBoson << &scalarBoson << &scalarBoson << &scalarBoson;
+    MESSAGE("Initializing the QED interaction vertex..");
+    TInteraction qedVertex("QED vertex", false);
+    qedVertex.Participants << &electron << &electron << &photon;
     
-    MESSAGE("Initializing Feynman rules for the f4 theory..");
-    TFeynRules f4Theory;
-    f4Theory.Particles << &scalarBoson;
-    f4Theory.Interactions << &f4Int;
+    MESSAGE("Initializing Feynman rules for the QED theory..");
+    TFeynRules qedTheory;
+    qedTheory.Particles << &electron << &photon;
+    qedTheory.Interactions << &qedVertex;
 
     MESSAGE("Initializing limitations for the diagrams..");
     TLimitations limitations;
-    limitations.LoopsLimit = TOptional<uint32_t>(); // not limited
-    limitations.ConnectedComponentsLimit = TOptional<uint32_t>(); // only connected diagrams
+    limitations.LoopsLimit = TOptional<uint32_t>(1); // only tree-level diagrams
+    limitations.ConnectedComponentsLimit = TOptional<uint32_t>(1); // only connected diagrams
     limitations.TotalInteractionsLimit = TOptional<uint32_t>(); // not limited
-    limitations.InteractionLimits[&f4Int] = 3;
+    limitations.InteractionLimits[&qedVertex] = 7;
 
     MESSAGE("Initializing the generator..");
-    TGenerator generator(&f4Theory, &limitations, false /* only dynamics */);
-    generator.ExternalParticles << &scalarBoson << &scalarBoson;
+    TGenerator generator(&qedTheory, &limitations, false /* only dynamics */);
+    generator.ExternalParticles << &electron << &electron << &electron << &electron;
 
     MESSAGE("Initializing the output container..");
     QVector<TDiagram*> res;
