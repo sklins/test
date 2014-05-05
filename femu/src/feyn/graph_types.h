@@ -2,8 +2,8 @@
 class TVertex;
 class TEdge;
 class TParticle;
-class TFeynRules;
-class TInteraction;
-class TLimitations;
+struct TFeynRules;
+struct TInteraction;
+struct TLimitations;
 class ITask;
-class TCorrelation;
+class TGenerator;
