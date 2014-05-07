@@ -11,7 +11,7 @@ const uint32_t N = 5;
 void IntegrationTest_Solve2() {
     MESSAGE("Initializing electron and photon..");
     TParticle electron("electron", LS_NORMAL);
-    TParticle photon("photon", LS_DOTTED); // Should be LS_WAVE
+    TParticle photon("photon", LS_DASHED); // Should be LS_WAVE
 
     MESSAGE("Initializing the QED interaction vertex..");
     TInteraction qedVertex("QED vertex", false);
@@ -24,14 +24,15 @@ void IntegrationTest_Solve2() {
 
     MESSAGE("Initializing limitations for the diagrams..");
     TLimitations limitations;
-    limitations.LoopsLimit = TOptional<uint32_t>(1); // only tree-level diagrams
+    limitations.LoopsLimit = TOptional<uint32_t>(); // only tree-level & 1-loop-level diagrans
     limitations.ConnectedComponentsLimit = TOptional<uint32_t>(1); // only connected diagrams
     limitations.TotalInteractionsLimit = TOptional<uint32_t>(); // not limited
-    limitations.InteractionLimits[&qedVertex] = 7;
+    limitations.InteractionLimits[&qedVertex] = 5;
 
     MESSAGE("Initializing the generator..");
     TGenerator generator(&qedTheory, &limitations, false /* only dynamics */);
     generator.ExternalParticles << &electron << &electron << &electron << &electron;
+    generator.IsomorphismCheck = true;
 
     MESSAGE("Initializing the output container..");
     QVector<TDiagram*> res;
@@ -61,5 +62,9 @@ void IntegrationTest_Solve2() {
                 res[i]->CountLoops() << " loops");
     }
 
-    MESSAGE("Done");
+    MESSAGE("Done (QED; electron scattering; max. 5 interactions; only connected) : should be 5 diagrams");
+
+    if (res.size() == 5)
+        MESSAGE("OK");
+    else MESSAGE("ERROR! " << res.size() << " diagrams generated instead of 5!");
 }

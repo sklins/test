@@ -1,4 +1,5 @@
 #pragma once
+class TDiagram;
 class TVertex;
 class TEdge;
 class TParticle;

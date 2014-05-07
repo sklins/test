@@ -1,4 +1,5 @@
 #include "generator.h"
+#include "isomorphism.h"
 #include <wick/wick_task.h>
 
 
@@ -90,12 +91,14 @@ void TGenerator::Apply() {
         log << (*i)->Name << " (" << CurrentCfg[*i] << "), ";
     }
 
-    log << "solving..\n";
+    log << "solving..";
 
-    QVector<TDiagram*> pre;
-    wickTask.Solve(&pre, ExternalParticles.size() > 0); // We generate either bubbles or diagrams without bubbles
+    QVector<TDiagram*> pre1;
+    wickTask.Solve(&pre1, ExternalParticles.size() > 0); // We generate either bubbles or diagrams without bubbles
 
-    for (QVector<TDiagram*>::Iterator i = pre.begin(); i != pre.end(); i++) {
+    QVector<TDiagram*> pre2;
+
+    for (QVector<TDiagram*>::Iterator i = pre1.begin(); i != pre1.end(); i++) {
         if (Limitations->ConnectedComponentsLimit.HasValue()) {
             uint32_t components = (*i)->CountConnectedComponents();
             if (components > Limitations->ConnectedComponentsLimit.Get())
@@ -108,8 +111,19 @@ void TGenerator::Apply() {
                 continue;
         }
 
-        Output->push_back(*i);
+        pre2.push_back(*i);
     }
+
+    int old_size = Output->size();
+
+    if (IsomorphismCheck) {
+        log << " filtering..";
+        FilterDiagrams(&pre2, Output);
+    } else {
+        (*Output) << pre2;
+    }
+
+    log << " done (" << (Output->size() - old_size) << " diagrams)\n";
 }
 
 void TGenerator::Generate(QVector<TDiagram *> *output) {
