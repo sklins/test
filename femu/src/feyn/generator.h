@@ -13,13 +13,14 @@ public:
 class TGenerator: public IGenerator {
 public:
     TGenerator(const TFeynRules* rules, const TLimitations* limitations, bool includeKinematics):
-        Rules(rules), Limitations(limitations), IncludeKinematics(includeKinematics) {}
+        IsomorphismCheck(false), Rules(rules), Limitations(limitations), IncludeKinematics(includeKinematics) {}
 
     /*override*/ void Generate(QVector<TDiagram*> *output);
 
 public:
     // Fill it up
     QVector<TParticle*> ExternalParticles;
+    bool IsomorphismCheck;
 
 private:
     void Brute(QSet<TInteraction*>::ConstIterator);

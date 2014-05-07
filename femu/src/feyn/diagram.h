@@ -6,6 +6,9 @@
 
 class TDiagram
 {
+    friend class TSimplifiedDiagram;
+    friend bool CheckIsomorphism(const TDiagram &a, const TDiagram &b);
+
     public:
         ~TDiagram ();
     public:
@@ -25,7 +28,7 @@ class TDiagram
         void GenerateImage(const QString& diagramName, const QString& fileName) const;
         uint32_t CountConnectedComponents() const;
         uint32_t CountLoops() const;
-    
+
     private:
         QSet<TEdge*> Edges;
         QSet<TVertex*> Interactions;

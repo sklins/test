@@ -19,11 +19,11 @@ QString TWickTask::ToString() const
 
 #define MSG(x) QTextStream(stderr) << x << "\n"
 
-void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency, int i0, int j0)
+void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency)
 {
     int i = -1;
     
-    for (int k = i0; k < Slots.size(); k++)
+    for (int k = 0; k < Slots.size(); k++)
     {
         if (Slots[k].IsFinalized())
             continue;
@@ -42,9 +42,7 @@ void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency, int i0,
     
     TParticle* p = Slots[i].GetPendingParticleType();
 
-    int j_start = (i == i0) ? j0 : i;
-    
-    for (int j = j_start; j < Slots.size(); j++)
+    for (int j = i; j < Slots.size(); j++)
     {
         if (!TWickSlot::AllowContraction(Slots[i], Slots[j], p))
             continue;
@@ -63,7 +61,7 @@ void TWickTask::Solve(QVector<TDiagram*> *output, bool checkConsistency, int i0,
         
         TWickSlot::Contract(Slots[i], Slots[j], p);
         CurrentEdges.append(TWickEdge(i, j, p));
-        Solve(output, checkConsistency, i, j);
+        Solve(output, checkConsistency);
         TWickSlot::BreakContraction(Slots[i], Slots[j], p);
         CurrentEdges.pop_back();
     }

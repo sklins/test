@@ -24,13 +24,14 @@ void IntegrationTest_Solve1() {
     MESSAGE("Initializing limitations for the diagrams..");
     TLimitations limitations;
     limitations.LoopsLimit = TOptional<uint32_t>(); // not limited
-    limitations.ConnectedComponentsLimit = TOptional<uint32_t>(); // only connected diagrams
+    limitations.ConnectedComponentsLimit = TOptional<uint32_t>(); // not limited
     limitations.TotalInteractionsLimit = TOptional<uint32_t>(); // not limited
     limitations.InteractionLimits[&f4Int] = 3;
 
     MESSAGE("Initializing the generator..");
     TGenerator generator(&f4Theory, &limitations, false /* only dynamics */);
     generator.ExternalParticles << &scalarBoson << &scalarBoson;
+    generator.IsomorphismCheck = true;
 
     MESSAGE("Initializing the output container..");
     QVector<TDiagram*> res;
@@ -60,5 +61,9 @@ void IntegrationTest_Solve1() {
                 res[i]->CountLoops() << " loops");
     }
 
-    MESSAGE("Done");
+    MESSAGE("Done (F4 theory; scalar boson self-energy; max. 3 interactions) : should be 12 diagrams");
+
+    if (res.size() == 12)
+        MESSAGE("OK");
+    else MESSAGE("ERROR! " << res.size() << " diagrams generated instead of 12!");
 }

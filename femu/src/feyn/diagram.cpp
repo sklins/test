@@ -196,3 +196,4 @@ uint32_t TDiagram::CountLoops() const
     return (this->Edges.size() - this->Interactions.size() - this->Correlations.size() + 1);
 }
 
+
