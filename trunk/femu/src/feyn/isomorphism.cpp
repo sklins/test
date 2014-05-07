@@ -113,17 +113,16 @@ bool CheckIsomorphism(const TDiagram &a, const TDiagram &b) {
 }
 
 void FilterDiagrams(const QVector<TDiagram*> *input, QVector<TDiagram*> *output) {
+    QBitArray good(input->size(), true);
     for (int i = 0; i < input->size(); i++) {
-        bool good = true;
-
         for (int j = 0; j < i; j++) {
-            if (CheckIsomorphism(*input->at(i), *input->at(j))) {
-                good = false;
+            if (good[j] && CheckIsomorphism(*input->at(i), *input->at(j))) {
+                good[i] = false;
                 break;
             }
         }
 
-        if (good) {
+        if (good[i]) {
             output->push_back(input->at(i));
         }
     }
