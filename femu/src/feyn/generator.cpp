@@ -85,6 +85,7 @@ void TGenerator::Apply() {
     // Writing the info
     QTextStream log(stderr);
     log << "TGenerator::Generate: ";
+    log.flush();
 
     for (QSet<TInteraction*>::ConstIterator i = Rules->Interactions.begin();
          i != Rules->Interactions.end(); i++) {
@@ -92,6 +93,7 @@ void TGenerator::Apply() {
     }
 
     log << "solving..";
+    log.flush();
 
     QVector<TDiagram*> pre1;
     wickTask.Solve(&pre1, ExternalParticles.size() > 0); // We generate either bubbles or diagrams without bubbles
@@ -118,12 +120,14 @@ void TGenerator::Apply() {
 
     if (IsomorphismCheck) {
         log << " filtering..";
+        log.flush();
         FilterDiagrams(&pre2, Output);
     } else {
         (*Output) << pre2;
     }
 
     log << " done (" << (Output->size() - old_size) << " diagrams)\n";
+    log.flush();
 }
 
 void TGenerator::Generate(QVector<TDiagram *> *output) {
