@@ -95,21 +95,24 @@ QString TDiagram::ExportToDot(const QString& graphName) const {
     uint32_t num = 0;
     double levelsgap = 0.9;
     double nodesep = 0.3;
-    
-    out << "graph " << graphName << " {\n    mode=ipsep\n    diredgeconstraints=true\n    levelsgap=" << levelsgap << "\n    nodesep=" << nodesep << "\n    overlap=ipsep\n\n";
+
+    out << "graph {\n    mode=ipsep\n    diredgeconstraints=true\n    levelsgap=" << levelsgap << "\n    nodesep=" << nodesep << "\n    overlap=ipsep\n\n";
+
+    out << "    labelloc=\"t\";\n";
+    out << "    label=\"" << graphName << "\";\n\n";
     
     //А ПОЧЕМУ ОБЪЯВЛЕН ХЭШ А В ЦИКЛЕ СЕТ?????????????????????????????????????????????????
     
     for (QSet<TVertex*>::ConstIterator i = Correlations.begin(); i != Correlations.end(); i++)
     {
         vertexNames[*i] = num++;
-        out << "    v" << vertexNames[*i] << " [shape=none label=\"\"];\n";
+        out << "    v" << vertexNames[*i] << " [shape=none,label=\"\"];\n";
     }
     
     for (QSet<TVertex*>::ConstIterator i = Interactions.begin(); i != Interactions.end(); i++)
     {
         vertexNames[*i] = num++;
-        out << "    v" << vertexNames[*i] << " [shape=point label=\"\"];\n";
+        out << "    v" << vertexNames[*i] << " [shape=point,label=\"\"];\n";
     }
     out << "\n";
     
