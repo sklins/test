@@ -1,4 +1,5 @@
 #include "step_1.h"
+#include "step_2.h"
 #include <util/singleton.h>
 
 UI_Step1::UI_Step1(QWidget *parent): QWidget(parent) {
@@ -66,5 +67,5 @@ void UI_Step1::HandleClick(QListWidgetItem *item) {
 
 void UI_Step1::Next() {
     hide();
-    Singleton<UI_Step2>.show();
+    Singleton<UI_Step2>()->show();
 }
