@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>UI_Step1</class>
  <widget class="QWidget" name="UI_Step1">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -37,7 +40,7 @@
    <item row="1" column="1">
     <widget class="QPushButton" name="nextButton">
      <property name="text">
-      <string>2. Choose external particles -&gt;</string>
+      <string>2. Choose particles &amp;&amp; limits -&gt;</string>
      </property>
     </widget>
    </item>
