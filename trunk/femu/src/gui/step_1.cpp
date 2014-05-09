@@ -68,6 +68,7 @@ void UI_Step1::HandleClick() {
 void UI_Step1::Next() {
     hide();
     UI_Step2 *s2 = new UI_Step2();
+    TSingleton<UI_Step2>::Switch(s2);
     s2->Initialize(currentTheory);
     s2->show();
 }
