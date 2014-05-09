@@ -17,7 +17,7 @@ private:
     void ShowTheories();
 
 private slots:
-    void HandleClick(QListWidgetItem*);
+    void HandleClick(QString);
     void Next();
 
 private:
