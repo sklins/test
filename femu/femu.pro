@@ -1,6 +1,6 @@
 TEMPLATE = app
 CONFIG += qt console
-QT = core gui xml
+QT = core gui xml svg
 
 OBJECTS_DIR = obj/
 MOC_DIR = moc/

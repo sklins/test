@@ -137,7 +137,7 @@ QString TDiagram::ExportToDot(const QString& graphName) const {
     return result;
 }
 
-void TDiagram::GenerateImage(const QString& diagramName, const QString& fileName) const
+QByteArray TDiagram::GenerateImageData(const QString& diagramName) const
 {
     QProcess graphviz;
     graphviz.start("neato", QStringList() << "-Tsvg");
@@ -150,10 +150,14 @@ void TDiagram::GenerateImage(const QString& diagramName, const QString& fileName
     graphviz.waitForFinished();
 
     QByteArray result = graphviz.readAll();
+    return result;
+}
 
+void TDiagram::GenerateImage(const QString &diagramName, const QString &fileName) const {
+    QByteArray data = GenerateImageData(diagramName);
     QFile output(fileName);
     output.open(QIODevice::WriteOnly);
-    output.write(result);
+    output.write(data);
     output.close();
 }
 
