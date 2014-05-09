@@ -8,6 +8,9 @@ struct TFeynRules {
     // Fill it up
     QSet<TParticle*> Particles;
     QSet<TInteraction*> Interactions;
+    QString Name;
+
+    void ImportFromXml(const QString &xmlFileName);
 
     bool CheckLimitations(const TLimitations& limitations) const;
 };

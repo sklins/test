@@ -1,6 +1,7 @@
 #pragma once
 #include <util/global.h>
 #include <wick/wick_slot.h>
+#include "diagram.h"
 
 struct TInteraction
 {
@@ -12,4 +13,6 @@ struct TInteraction
 
     // Fill it up
     QVector<TParticle*> Participants;
+
+    void GenerateExampleDiagram(TDiagram *d) const;
 };
