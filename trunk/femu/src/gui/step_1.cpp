@@ -19,7 +19,7 @@ UI_Step1::UI_Step1(QWidget *parent): QWidget(parent) {
     ImportTheories();
     ShowTheories();
 
-    QObject::connect(ui->theories, SIGNAL(currentTextChanged(QString)), this, SLOT(HandleClick(QString)));
+    QObject::connect(ui->theories, SIGNAL(currentTextChanged(QString)), this, SLOT(HandleClick()));
     QObject::connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
     QObject::connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(Next()));
 }
@@ -46,8 +46,9 @@ void UI_Step1::ShowTheories() {
     }
 }
 
-void UI_Step1::HandleClick(QString item) {
-    TFeynRules *rules = theories.value(item);
+void UI_Step1::HandleClick() {
+    TFeynRules *rules = theories.value(ui->theories->currentItem()->text());
+    currentTheory = rules;
     QVector<QByteArray> svgData;
     for (QSet<TInteraction*>::ConstIterator i = rules->Interactions.begin();
          i != rules->Interactions.end(); i++) {
@@ -66,5 +67,7 @@ void UI_Step1::HandleClick(QString item) {
 
 void UI_Step1::Next() {
     hide();
-    Singleton<UI_Step2>()->show();
+    UI_Step2 *s2 = new UI_Step2();
+    s2->Initialize(currentTheory);
+    s2->show();
 }

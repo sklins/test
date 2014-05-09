@@ -17,11 +17,12 @@ private:
     void ShowTheories();
 
 private slots:
-    void HandleClick(QString);
+    void HandleClick();
     void Next();
 
 private:
     Ui::UI_Step1 *ui;
     QHash<QString, TFeynRules*> theories;
+    TFeynRules *currentTheory;
     QVector<QSvgWidget*> svgWidgets;
 };
