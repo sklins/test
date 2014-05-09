@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<feynman-rules name="N/A gauge theory">
+    <particles>
+        <particle name="fermion" line-style="normal"/>
+        <particle name="boson" line-style="dashed"/> <!-- should be wave, but we don't support waves :( -->
+        <particle name="ghost" line-style="dotted"/> <!-- Faddev-Popov gauge-fixing ghost -->
+    </particles>
+    <interactions>
+        <interaction name="QED-analogue interaction vertex" allow-simple-loops="no">
+            <participant particle="fermion"/>
+            <participant particle="fermion"/>
+            <participant particle="boson"/>
+        </interaction>
+        <interaction name="3-boson interaction vertex" allow-simple-loops="no">
+            <participant particle="boson"/>
+            <participant particle="boson"/>
+            <participant particle="boson"/>
+        </interaction>
+        <interaction name="4-boson interaction vertex" allow-simple-loops="no">
+            <participant particle="boson"/>
+            <participant particle="boson"/>
+            <participant particle="boson"/>
+            <participant particle="boson"/>
+        </interaction>
+        <interaction name="ghost interaction vertex" allow-simple-loops="no">
+            <participant particle="boson"/>
+            <participant particle="ghost"/>
+            <participant particle="ghost"/>
+        </interaction>
+    </interactions>
+</feynman-rules>
