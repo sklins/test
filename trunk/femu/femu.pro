@@ -1,6 +1,6 @@
 TEMPLATE = app
 CONFIG += qt console
-QT = core
+QT = core gui xml
 
 OBJECTS_DIR = obj/
 MOC_DIR = moc/
@@ -53,6 +53,12 @@ QMAKE_POST_LINK = echo -e \'\\033[1;32mBuild: ok\\033[0;00m\'
 INCLUDEPATH += src/
 HEADERS += $$system(find src/ -name '*.h')
 SOURCES += $$system(find src/ -name '*.cpp')
+
+FORMS   += $$system(find src/ -name '*.ui')
+
+message("Cached UI forms: $$FORMS")
+
+message()
 
 message("Build makefile is ready, type 'make' to build the project")
 message("Qmake: ok")
