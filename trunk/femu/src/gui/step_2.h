@@ -12,6 +12,9 @@ public:
     explicit UI_Step2(QWidget *parent = 0);
     virtual ~UI_Step2();
 
+private slots:
+    void Back();
+
 private:
     Ui::UI_Step2 *ui;
 };
