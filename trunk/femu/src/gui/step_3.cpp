@@ -3,6 +3,7 @@
 #include <util/singleton.h>
 
 void TGeneratingThread::run() {
+    QThread::setTerminationEnabled(true);
     generator->Generate(&Output);
 }
 
@@ -35,6 +36,10 @@ void UI_Step3::Initialize(IGenerator *generator) {
 }
 
 void UI_Step3::Back() {
+    if (thread->isRunning()) {
+        thread->terminate();
+    }
+
     hide();
     Singleton<UI_Step2>()->show();
 }
