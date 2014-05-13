@@ -32,7 +32,7 @@ void UI_Step1::ImportTheories() {
     QDir current(QApplication::applicationDirPath());
     if (!current.cd("theories")) {
         QMessageBox msgBox;
-        msgBox.setText("No theories/ dir found!");
+        msgBox.setText("No theories/ dir found in " + QApplication::applicationDirPath());
         msgBox.exec();
         exit(0);
     }
