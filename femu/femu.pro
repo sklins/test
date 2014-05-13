@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += qt console
+CONFIG += qt x11
 QT = core gui xml svg
 
 OBJECTS_DIR = obj/
