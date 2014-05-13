@@ -29,11 +29,17 @@ UI_Step1::~UI_Step1() {
 }
 
 void UI_Step1::ImportTheories() {
-    QDir theoriesDir("theories");
-    QStringList xmls = theoriesDir.entryList(QStringList() << "*.xml");
+    QDir current(QApplication::applicationDirPath());
+    if (!current.cd("theories")) {
+        QMessageBox msgBox;
+        msgBox.setText("No theories/ dir found!");
+        msgBox.exec();
+        exit(0);
+    }
+    QStringList xmls = current.entryList(QStringList() << "*.xml");
     for (QStringList::ConstIterator i = xmls.constBegin(); i != xmls.constEnd(); i++) {
         TFeynRules *rules = new TFeynRules();
-        rules->ImportFromXml(theoriesDir.absoluteFilePath(*i));
+        rules->ImportFromXml(current.absoluteFilePath(*i));
         theories.insert(rules->Name, rules);
     }
 }
