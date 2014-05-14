@@ -23,8 +23,6 @@ bool XmlBoolean(const QString &val) {
 }
 
 void TFeynRules::ImportFromXml(const QString &xmlFileName) {
-    qDebug() << "Importing xml from" << xmlFileName;
-
     QFile file(xmlFileName);
 
     QDomDocument doc;
@@ -96,8 +94,6 @@ void TFeynRules::ImportFromXml(const QString &xmlFileName) {
 
         Interactions << in;
     }
-
-    qDebug() << "Done. " << Particles.size() << " particles & " << Interactions.size() << " interactions";
 }
 
 bool TFeynRules::CheckLimitations(const TLimitations& limitations) const {

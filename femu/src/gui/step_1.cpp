@@ -44,7 +44,6 @@ void UI_Step1::ImportTheories() {
     QStringList xmls = current.entryList(QStringList() << "*.xml");
     for (QStringList::ConstIterator i = xmls.constBegin(); i != xmls.constEnd(); i++) {
         TFeynRules *rules = new TFeynRules();
-        qDebug() << current.absoluteFilePath(*i);
         rules->ImportFromXml(current.absoluteFilePath(*i));
         theories.insert(rules->Name, rules);
     }
