@@ -1,6 +1,5 @@
 #pragma once
 #include <util/global.h>
-#include <QtXml>
 #include "particle.h"
 #include "interaction.h"
 #include "limitations.h"
@@ -11,7 +10,7 @@ struct TFeynRules {
     QSet<TInteraction*> Interactions;
     QString Name;
 
-    void ImportFromXmlElement(QDomElement e_document);
+    void ImportFromXml(const QString &xmlFileName);
 
     bool CheckLimitations(const TLimitations& limitations) const;
 };
