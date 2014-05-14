@@ -97,7 +97,7 @@ QString TDiagram::ExportToDot(const QString& graphName) const {
     double nodesep = 0.3;
 
     out << "graph {\n    mode=ipsep\n    diredgeconstraints=true\n    levelsgap=" << levelsgap << "\n    nodesep=" << nodesep << "\n    overlap=ipsep\n\n";
-
+    out << "    layout = neato;\n";
     out << "    labelloc=\"t\";\n";
     out << "    label=\"" << graphName << "\";\n\n";
     
