@@ -30,9 +30,14 @@ UI_Step1::~UI_Step1() {
 
 void UI_Step1::ImportTheories() {
     QDir current(QApplication::applicationDirPath());
-    if (!current.cd("theories")) {
+    QString log = current.absolutePath() + "\n";
+    while (!current.isRoot() && !current.cd("theories")) {
+        current.cdUp();
+        log += "fail, " + current.absolutePath() + "\n";
+    }
+    if (current.isRoot()) {
         QMessageBox msgBox;
-        msgBox.setText("No theories/ dir found in " + QApplication::applicationDirPath());
+        msgBox.setText("No theories/ dir found\n" + log);
         msgBox.exec();
         exit(0);
     }
