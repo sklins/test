@@ -1,6 +1,7 @@
 #include "step_1.h"
 #include "step_2.h"
 #include <util/singleton.h>
+#include <QtXml>
 
 UI_Step1::UI_Step1(QWidget *parent): QWidget(parent) {
     ui = new Ui::UI_Step1();
@@ -29,22 +30,35 @@ UI_Step1::~UI_Step1() {
 }
 
 void UI_Step1::ImportTheories() {
-    QDir current(QApplication::applicationDirPath());
-    QString log = current.absolutePath() + "\n";
-    while (!current.isRoot() && !current.cd("theories")) {
-        current.cdUp();
-        log += "fail, " + current.absolutePath() + "\n";
-    }
-    if (current.isRoot()) {
+    QStringList args = QApplication::arguments();
+    if (args.size() != 2) {
         QMessageBox msgBox;
-        msgBox.setText("No theories/ dir found\n" + log);
+        msgBox.setText("No xml configuration specified");
         msgBox.exec();
-        exit(0);
+        exit(1);
     }
-    QStringList xmls = current.entryList(QStringList() << "*.xml");
-    for (QStringList::ConstIterator i = xmls.constBegin(); i != xmls.constEnd(); i++) {
+
+    QFile xmlFile(args[1]);
+    if (!xmlFile.exists()) {
+        QMessageBox msgBox;
+        msgBox.setText("Xml configuration not found");
+        msgBox.exec();
+        exit(1);
+    }
+
+    xmlFile.open(QIODevice::ReadOnly);
+    QTextStream xmlStream(&xmlFile);
+    QString xml = xmlStream.readAll();
+    xmlFile.close();
+
+    QDomDocument doc;
+    doc.setContent(xml);
+
+    QDomElement e_document = doc.documentElement();
+
+    for (QDomElement i = e_document.firstChildElement(); !i.isNull(); i = i.nextSiblingElement()) {
         TFeynRules *rules = new TFeynRules();
-        rules->ImportFromXml(current.absoluteFilePath(*i));
+        rules->ImportFromXmlElement(i);
         theories.insert(rules->Name, rules);
     }
 }

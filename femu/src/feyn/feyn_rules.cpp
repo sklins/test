@@ -1,5 +1,4 @@
 #include "feyn_rules.h"
-#include <QtXml>
 
 void XmlFail(const QString &msg) {
     QTextStream(stderr) << "Xml parsing error: " << msg << "\n";
@@ -22,13 +21,7 @@ bool XmlBoolean(const QString &val) {
     throw 0; // To eliminate compiler warnings
 }
 
-void TFeynRules::ImportFromXml(const QString &xmlFileName) {
-    QFile file(xmlFileName);
-
-    QDomDocument doc;
-    doc.setContent(&file);
-
-    QDomElement e_doc = doc.documentElement();
+void TFeynRules::ImportFromXmlElement(QDomElement e_doc) {
     XmlVerify(e_doc.tagName() == "feynman-rules", "Document tag must be <feynman-rules> instead of " + e_doc.tagName());
 
     XmlVerify(e_doc.hasAttribute("name"), "Feynman rule collection name attribute is missing");

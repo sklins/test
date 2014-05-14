@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<femu-configuration>
+    <feynman-rules name="F4 self-interacting theory">
+        <particles>
+            <particle name="scalar boson" line-style="normal"/>
+        </particles>
+        <interactions>
+            <interaction name="f4 interaction vertex" allow-simple-loops="yes">
+                <participant particle="scalar boson"/>
+                <participant particle="scalar boson"/>
+                <participant particle="scalar boson"/>
+                <participant particle="scalar boson"/>
+            </interaction>
+        </interactions>
+    </feynman-rules>
+
+    <feynman-rules name="N/A gauge theory">
+        <particles>
+            <particle name="fermion" line-style="normal"/>
+            <particle name="boson" line-style="dashed"/> <!-- should be wave, but we don't support waves :( -->
+            <particle name="ghost" line-style="dotted"/> <!-- Faddev-Popov gauge-fixing ghost -->
+        </particles>
+        <interactions>
+            <interaction name="QED-analogue interaction vertex" allow-simple-loops="no">
+                <participant particle="fermion"/>
+                <participant particle="fermion"/>
+                <participant particle="boson"/>
+            </interaction>
+            <interaction name="3-boson interaction vertex" allow-simple-loops="no">
+                <participant particle="boson"/>
+                <participant particle="boson"/>
+                <participant particle="boson"/>
+            </interaction>
+            <interaction name="4-boson interaction vertex" allow-simple-loops="no">
+                <participant particle="boson"/>
+                <participant particle="boson"/>
+                <participant particle="boson"/>
+                <participant particle="boson"/>
+            </interaction>
+            <interaction name="ghost interaction vertex" allow-simple-loops="no">
+                <participant particle="boson"/>
+                <participant particle="ghost"/>
+                <participant particle="ghost"/>
+            </interaction>
+        </interactions>
+    </feynman-rules>
+
+    <feynman-rules name="Quantum Electrodynamics">
+        <particles>
+            <particle name="electron" line-style="normal"/>
+            <particle name="photon" line-style="dashed"/> <!-- should be wave, but we don't support waves :( -->
+        </particles>
+        <interactions>
+            <interaction name="QED interaction vertex" allow-simple-loops="no">
+                <participant particle="electron"/>
+                <participant particle="electron"/>
+                <participant particle="photon"/>
+            </interaction>
+        </interactions>
+    </feynman-rules>
+</femu-configuration>
