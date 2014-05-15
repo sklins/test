@@ -7,6 +7,8 @@ MOC_DIR = moc/
 DESTDIR = bin/
 TARGET = femu
 
+RESOURCES = resources.qrc
+
 message("Starting femu (qmake) build system")
 message()
 

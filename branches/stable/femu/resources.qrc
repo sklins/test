@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="help_message.txt">res/help_message.txt</file>
+    </qresource>
+</RCC>
