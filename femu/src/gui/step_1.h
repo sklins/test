@@ -19,6 +19,7 @@ private:
 private slots:
     void HandleClick();
     void Next();
+    void OpenHelp();
 
 private:
     Ui::UI_Step1 *ui;

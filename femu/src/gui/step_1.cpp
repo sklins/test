@@ -1,5 +1,6 @@
 #include "step_1.h"
 #include "step_2.h"
+#include "help.h"
 #include <util/singleton.h>
 
 UI_Step1::UI_Step1(QWidget *parent): QWidget(parent) {
@@ -22,6 +23,7 @@ UI_Step1::UI_Step1(QWidget *parent): QWidget(parent) {
     QObject::connect(ui->theories, SIGNAL(currentTextChanged(QString)), this, SLOT(HandleClick()));
     QObject::connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
     QObject::connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(Next()));
+    QObject::connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(OpenHelp()));
 }
 
 UI_Step1::~UI_Step1() {
@@ -82,4 +84,9 @@ void UI_Step1::Next() {
     TSingleton<UI_Step2>::Switch(s2);
     s2->Initialize(currentTheory);
     s2->show();
+}
+
+void UI_Step1::OpenHelp() {
+    hide();
+    Singleton<UI_Help>()->show();
 }
