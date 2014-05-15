@@ -1,8 +1,11 @@
 #include "feyn_rules.h"
+#include <QtGui>
 #include <QtXml>
 
 void XmlFail(const QString &msg) {
-    QTextStream(stderr) << "Xml parsing error: " << msg << "\n";
+    QMessageBox mbox;
+    mbox.setText("Xml importing error: " + msg);
+    mbox.exec();
     exit(1);
 }
 
