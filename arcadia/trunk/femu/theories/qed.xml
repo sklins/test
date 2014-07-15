@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<feynman-rules name="Quantum Electrodynamics">
+    <particles>
+        <particle name="electron" line-style="normal"/>
+        <particle name="photon" line-style="dashed"/> <!-- should be wave, but we don't support waves :( -->
+    </particles>
+    <interactions>
+        <interaction name="QED interaction vertex" allow-simple-loops="no">
+            <participant particle="electron"/>
+            <participant particle="electron"/>
+            <participant particle="photon"/>
+        </interaction>
+    </interactions>
+</feynman-rules>
